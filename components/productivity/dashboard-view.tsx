@@ -96,7 +96,7 @@ export function DashboardView({ workspace, onToggleTask }: DashboardViewProps) {
   return (
     <div className="space-y-4">
       {/* Top Metrics Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
         <div className="bg-card/70 border border-border/50 rounded-lg p-3 shadow-2xs">
           <div className="text-[11px] text-muted-foreground font-medium">Total Tasks</div>
           <div className="text-xl font-bold mt-0.5 text-foreground">{total}</div>
@@ -127,7 +127,7 @@ export function DashboardView({ workspace, onToggleTask }: DashboardViewProps) {
           <div className="text-[10px] text-muted-foreground/80 mt-0.5">Blocked</div>
         </div>
 
-        <div className="bg-card/70 border border-border/50 rounded-lg p-3 shadow-2xs">
+        <div className="col-span-2 sm:col-span-1 lg:col-span-1 bg-card/70 border border-border/50 rounded-lg p-3 shadow-2xs">
           <div className="text-[11px] text-muted-foreground font-medium">Overdue</div>
           <div
             className={`text-xl font-bold mt-0.5 ${

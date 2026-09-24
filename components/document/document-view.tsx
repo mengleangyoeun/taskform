@@ -173,7 +173,7 @@ export function DocumentView({
                 transform: zoom !== 100 ? `scale(${zoom / 100})` : undefined,
                 transformOrigin: "top center",
               }}
-              className="w-full bg-white text-black shadow-md rounded-md border border-neutral-200 transition-all shrink-0 print:border-0 print:shadow-none print:m-0 print:p-0 print:max-w-none print:!min-h-0 print:!h-auto print:w-full print:!transform-none"
+              className="w-full min-w-[560px] sm:min-w-0 bg-white text-black shadow-md rounded-md border border-neutral-200 transition-all shrink-0 print:border-0 print:shadow-none print:m-0 print:p-0 print:max-w-none print:!min-h-0 print:!h-auto print:w-full print:!transform-none print:min-w-0"
             >
               <DocumentRenderer workspace={workspace} settings={settings} />
             </div>

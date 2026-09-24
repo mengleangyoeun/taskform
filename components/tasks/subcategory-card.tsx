@@ -76,7 +76,7 @@ export function SubcategoryCard({
           </span>
         </button>
 
-        <div className="opacity-0 group-hover/sub:opacity-100 transition-opacity flex items-center gap-1">
+        <div className="opacity-100 sm:opacity-0 sm:group-hover/sub:opacity-100 transition-opacity flex items-center gap-1">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-5 w-5 text-muted-foreground hover:text-foreground rounded">

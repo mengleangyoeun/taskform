@@ -36,8 +36,8 @@ export function BatchActionBar({
   if (selectedCount === 0) return null;
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-bottom-4 duration-200">
-      <div className="flex items-center gap-2 px-3.5 py-2 bg-background/90 backdrop-blur-xl border border-border/70 rounded-2xl shadow-2xl text-xs font-medium">
+    <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-bottom-4 duration-200 max-w-[calc(100vw-1.5rem)]">
+      <div className="flex items-center gap-1 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-background/95 backdrop-blur-xl border border-border/70 rounded-2xl shadow-2xl text-xs font-medium overflow-x-auto no-scrollbar">
         {/* Selected count badge */}
         <div className="flex items-center gap-1.5 pr-2 border-r border-border/50">
           <span className="h-5 px-1.5 rounded-full bg-primary text-primary-foreground font-mono font-semibold text-[11px] flex items-center justify-center">

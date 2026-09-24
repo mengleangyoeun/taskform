@@ -43,9 +43,9 @@ export function FilterBar({
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1.5 sm:gap-2">
         {/* Search Input Bar */}
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-w-0">
           <Search className="absolute left-2.5 top-2 h-3.5 w-3.5 text-muted-foreground/60" />
           <Input
             ref={searchRef}

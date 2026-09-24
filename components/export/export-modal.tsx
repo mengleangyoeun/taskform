@@ -143,7 +143,7 @@ export function ExportModal({
         </DialogHeader>
 
         {/* Tab switchers */}
-        <div className="flex border-b border-border/50 gap-4 text-xs font-semibold">
+        <div className="flex border-b border-border/50 gap-3 sm:gap-4 text-xs font-semibold overflow-x-auto no-scrollbar whitespace-nowrap">
           <button
             type="button"
             onClick={() => {
@@ -212,7 +212,7 @@ export function ExportModal({
             <p className="text-xs text-muted-foreground">
               Generate formatted documents matching your template settings.
             </p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
               {/* DOCX Button */}
               <button
                 type="button"
@@ -290,7 +290,7 @@ export function ExportModal({
             <p className="text-xs text-muted-foreground">
               Export raw task data for spreadsheets, databases, or local backup.
             </p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
               <button
                 type="button"
                 onClick={handleExportJson}

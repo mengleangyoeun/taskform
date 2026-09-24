@@ -80,7 +80,7 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
       )}
     >
       {/* Compact Header */}
-      <div className={cn("flex items-center justify-between border-b pb-1.5 print:border-black", accent.headerBorder)}>
+      <div className={cn("flex flex-col sm:flex-row print:flex-row sm:items-center justify-between border-b pb-1.5 gap-2 print:border-black", accent.headerBorder)}>
         <div className="flex items-center gap-2">
           {settings.logoUrl && (
             /* eslint-disable-next-line @next/next/no-img-element */
@@ -91,7 +91,7 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
             />
           )}
           <div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex flex-wrap items-center gap-1.5">
               {settings.organizationName && (
                 <span className="font-semibold text-[10px] uppercase text-neutral-600">
                   {settings.organizationName} •

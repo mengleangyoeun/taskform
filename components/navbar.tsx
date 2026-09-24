@@ -72,7 +72,7 @@ export function Navbar({ onOpenCommandPalette }: NavbarProps) {
         </Link>
 
         {/* Right Actions: Search / Theme / Auth */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Global Search Hotkey Badge */}
           <button
             type="button"
@@ -83,12 +83,12 @@ export function Navbar({ onOpenCommandPalette }: NavbarProps) {
                 window.dispatchEvent(new CustomEvent("open-command-palette"));
               }
             }}
-            className="flex items-center gap-1.5 px-2 py-1 text-xs text-muted-foreground hover:text-foreground bg-muted/40 hover:bg-muted/70 rounded-md border border-border/40 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 p-1.5 sm:px-2 sm:py-1 text-xs text-muted-foreground hover:text-foreground bg-muted/40 hover:bg-muted/70 rounded-md border border-border/40 transition-colors cursor-pointer"
             title="Search or execute commands (⌘K)"
           >
-            <Command className="h-3 w-3 opacity-70" />
+            <Command className="h-3.5 w-3.5 sm:h-3 sm:w-3 opacity-70" />
             <span className="text-[11px] font-sans text-muted-foreground/80 hidden sm:inline">Search</span>
-            <kbd className="font-mono text-[10px] bg-background/80 px-1 rounded border border-border/40 ml-1">⌘K</kbd>
+            <kbd className="font-mono text-[10px] bg-background/80 px-1 rounded border border-border/40 ml-1 hidden sm:inline">⌘K</kbd>
           </button>
 
           {/* Dark mode toggle */}

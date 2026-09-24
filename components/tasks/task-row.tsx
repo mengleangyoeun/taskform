@@ -129,7 +129,7 @@ export function TaskRow({
         ) : (
           isDraggable && (
             <div
-              className="opacity-40 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground shrink-0 -ml-1 p-0.5 rounded hover:bg-muted"
+              className="opacity-50 sm:opacity-40 sm:group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground shrink-0 -ml-1 p-0.5 rounded hover:bg-muted"
               title="Drag to reorder"
             >
               <GripVertical className="h-3.5 w-3.5" />
@@ -177,7 +177,7 @@ export function TaskRow({
         </div>
 
         {/* Hover Actions */}
-        <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+        <div className="flex items-center gap-0.5 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity shrink-0">
           <Button
             variant="ghost"
             size="icon"

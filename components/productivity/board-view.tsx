@@ -140,7 +140,7 @@ export function BoardView({
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-start pb-8">
+    <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 items-start pb-8 overflow-x-auto md:overflow-x-visible snap-x md:snap-none -mx-3 px-3 sm:mx-0 sm:px-0 no-scrollbar">
       {COLUMNS.map((column) => {
         const tasks = tasksByColumn[column.id] || [];
         const isColumnDragOver = dragOverColumn === column.id;
@@ -171,7 +171,7 @@ export function BoardView({
               setDragOverColumn(null);
             }}
             className={cn(
-              "flex flex-col rounded-xl bg-muted/20 border border-border/40 p-3 min-h-[460px] transition-all",
+              "flex flex-col rounded-xl bg-muted/20 border border-border/40 p-3 min-h-[460px] transition-all w-[82vw] max-w-[320px] md:max-w-none md:w-auto shrink-0 md:shrink snap-center",
               isColumnDragOver && "border-primary/60 bg-primary/5 ring-2 ring-primary/20"
             )}
           >

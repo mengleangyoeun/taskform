@@ -42,7 +42,7 @@ export function SubtaskRow({
       <Button
         variant="ghost"
         size="icon"
-        className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive rounded"
+        className="h-5 w-5 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive rounded"
         onClick={() => onDelete(subtask.id, parentTaskId)}
         title="Delete subtask"
       >

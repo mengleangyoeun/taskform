@@ -109,7 +109,7 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
     >
       {/* Form Header */}
       <div className={cn("border-b-2 pb-3 print:pb-1.5 print:border-black", accent.headerBorder)}>
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row print:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           {/* Logo or Organization on the left */}
           {settings.logoUrl ? (
             <div className="shrink-0 flex items-center gap-3">
@@ -150,8 +150,8 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
             className={cn(
               "flex-1",
               settings.logoUrl || settings.organizationName
-                ? "text-right"
-                : "text-center"
+                ? "text-left sm:text-right print:text-right"
+                : "text-left sm:text-center print:text-center"
             )}
           >
             <h1 className="text-xl print:text-base font-bold tracking-wider uppercase mb-0.5">

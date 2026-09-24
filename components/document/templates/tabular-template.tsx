@@ -155,7 +155,7 @@ export function TabularTemplate({ workspace, settings }: TemplateProps) {
       <div className="overflow-x-auto print:overflow-visible">
         <table
           className={cn(
-            "w-full border-collapse border text-left text-[9.5pt] print:text-[8pt] print:border-black",
+            "w-full min-w-[580px] print:min-w-0 border-collapse border text-left text-[9.5pt] print:text-[8pt] print:border-black",
             accent.tableBorder
           )}
         >

@@ -96,7 +96,7 @@ export function CategoryCard({
         </button>
 
         {/* Quiet Actions */}
-        <div className="flex items-center gap-1 opacity-0 group-hover/cat:opacity-100 transition-opacity">
+        <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover/cat:opacity-100 transition-opacity">
           <Button
             variant="ghost"
             size="sm"
@@ -104,7 +104,7 @@ export function CategoryCard({
             onClick={() => onAddSubcategory(category.id)}
           >
             <Plus className="h-3 w-3" />
-            <span className="text-[11px]">Subcategory</span>
+            <span className="hidden sm:inline text-[11px]">Subcategory</span>
           </Button>
 
           <DropdownMenu>
