@@ -13,7 +13,7 @@ import {
   HeadingLevel,
 } from "docx";
 import { WorkspaceWithDetails } from "@/types/database";
-import { DocumentSettings } from "@/types/document";
+import { DocumentSettings, formatPeriodDisplay } from "@/types/document";
 import { formatDate } from "@/lib/utils";
 import { downloadBlob } from "@/lib/export/download";
 
@@ -103,7 +103,7 @@ export async function exportToDocx(
   // Metadata Fields Table (Name, Date, Period)
   const periodLabel =
     settings.formPeriod === "custom"
-      ? `[X] ${settings.customPeriod || "Custom"}`
+      ? `[X] ${formatPeriodDisplay(settings)}`
       : `[${settings.formPeriod === "daily" ? "X" : " "}] Daily  [${
           settings.formPeriod === "weekly" ? "X" : " "
         }] Weekly  [${settings.formPeriod === "monthly" ? "X" : " "}] Monthly${

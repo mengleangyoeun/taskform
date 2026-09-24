@@ -1,7 +1,7 @@
 "use client";
 
 import { WorkspaceWithDetails } from "@/types/database";
-import { DocumentSettings } from "@/types/document";
+import { DocumentSettings, formatPeriodDisplay } from "@/types/document";
 import { formatDate, cn } from "@/lib/utils";
 
 interface TemplateProps {
@@ -79,14 +79,9 @@ export function SimpleTemplate({ workspace, settings }: TemplateProps) {
           </div>
           <div className="text-xs print:text-[7.5pt] text-neutral-600 text-left sm:text-right space-y-0.5 shrink-0">
             <div>Date: {formatDate(new Date())}</div>
-            {(settings.customPeriod || (settings.formPeriod && settings.formPeriod !== "weekly")) && (
+            {(settings.customPeriod || settings.periodStartDate || settings.periodEndDate || (settings.formPeriod && settings.formPeriod !== "weekly")) && (
               <div>
-                Period:{" "}
-                {settings.formPeriod === "custom"
-                  ? settings.customPeriod || "Custom"
-                  : settings.customPeriod
-                  ? `${settings.formPeriod.toUpperCase()} (${settings.customPeriod})`
-                  : settings.formPeriod.toUpperCase()}
+                Period: {formatPeriodDisplay(settings)}
               </div>
             )}
             {!settings.hideWorkspace && <div>Workspace: {workspace.name}</div>}
@@ -95,17 +90,23 @@ export function SimpleTemplate({ workspace, settings }: TemplateProps) {
       </div>
 
       {/* Categories & Tasks */}
-      <div className="space-y-4 print:space-y-2">
+      <div
+        className={cn(
+          settings.columnsLayout === "two_column"
+            ? "grid grid-cols-2 gap-4 print:grid-cols-2"
+            : "space-y-4 print:space-y-2"
+        )}
+      >
         {filteredCategories.map((cat) => (
-          <div key={cat.id} className="space-y-2 print:space-y-1">
-            <div className="font-bold text-xs print:text-[8pt] uppercase border-b border-black pb-0.5 print-break-inside-avoid">
+          <div key={cat.id} className="space-y-2 print:space-y-1 min-w-0">
+            <div className="font-bold text-xs print:text-[8pt] uppercase border-b border-black pb-0.5 print-break-inside-avoid truncate">
               [ {cat.name} ]
             </div>
 
             <div className="pl-3 print:pl-2 space-y-3 print:space-y-1.5">
               {cat.subcategories.map((sub) => (
                 <div key={sub.id} className="space-y-1">
-                  <div className="font-semibold text-[11px] print:text-[7.5pt] text-neutral-700 print-break-inside-avoid">
+                  <div className="font-semibold text-[11px] print:text-[7.5pt] text-neutral-700 print-break-inside-avoid truncate">
                     &gt; {sub.name}
                   </div>
 
@@ -114,22 +115,36 @@ export function SimpleTemplate({ workspace, settings }: TemplateProps) {
                       const isDone = task.status === "completed";
                       return (
                         <div key={task.id} className="text-xs print:text-[8pt] print-break-inside-avoid">
-                          <div className="flex items-start gap-2">
-                            <span className="shrink-0 font-bold">
-                              {isDone ? "[x]" : "[ ]"}
-                            </span>
-                            <span className={isDone ? "line-through text-neutral-500" : ""}>
-                              {task.title}
-                            </span>
-                            {settings.includePriority && (
-                              <span className="text-[10px] text-neutral-500">
-                                ({task.priority})
-                              </span>
+                          <div
+                            className={cn(
+                              "flex gap-1.5",
+                              settings.columnsLayout === "two_column"
+                                ? "flex-col items-start"
+                                : "items-start"
                             )}
-                            {settings.includeDueDates && task.due_date && (
-                              <span className="text-[10px] text-neutral-500">
-                                Due: {formatDate(task.due_date)}
+                          >
+                            <div className="flex items-start gap-2 flex-1 min-w-0">
+                              <span className="shrink-0 font-bold">
+                                {isDone ? "[x]" : "[ ]"}
                               </span>
+                              <span className={cn("break-words", isDone && "line-through text-neutral-500")}>
+                                {task.title}
+                              </span>
+                            </div>
+                            {(settings.includePriority || (settings.includeDueDates && task.due_date)) && (
+                              <div
+                                className={cn(
+                                  "flex items-center gap-2 text-[10px] text-neutral-500 flex-wrap",
+                                  settings.columnsLayout === "two_column" && "pl-5"
+                                )}
+                              >
+                                {settings.includePriority && (
+                                  <span>({task.priority})</span>
+                                )}
+                                {settings.includeDueDates && task.due_date && (
+                                  <span>Due: {formatDate(task.due_date)}</span>
+                                )}
+                              </div>
                             )}
                           </div>
 

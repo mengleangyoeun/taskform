@@ -1,7 +1,7 @@
 "use client";
 
 import { WorkspaceWithDetails } from "@/types/database";
-import { DocumentSettings } from "@/types/document";
+import { DocumentSettings, formatPeriodDisplay } from "@/types/document";
 import { formatDate, cn } from "@/lib/utils";
 
 interface TemplateProps {
@@ -190,7 +190,7 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
               <span className="inline-block w-3.5 h-3.5 print:w-3 print:h-3 border border-black text-center text-[9px] print:text-[7pt] leading-3 print:leading-2.5">
                 ✓
               </span>
-              <span className="font-bold">{settings.customPeriod || "Custom"}</span>
+              <span className="font-bold">{formatPeriodDisplay(settings)}</span>
             </span>
           ) : (
             <>
@@ -264,12 +264,12 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
       <div
         className={cn(
           settings.columnsLayout === "two_column"
-            ? "grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-4"
+            ? "grid grid-cols-2 gap-4 print:grid-cols-2"
             : "space-y-6 print:space-y-2.5"
         )}
       >
         {filteredCategories.map((category) => (
-          <div key={category.id} className="space-y-3 print:space-y-1.5">
+          <div key={category.id} className="space-y-3 print:space-y-1.5 min-w-0">
             {/* Category Header */}
             <div
               className={cn(
@@ -282,8 +282,8 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
                   : undefined
               }
             >
-              <span>CATEGORY: {category.name}</span>
-              <span className="text-[10px] print:text-[7.5pt] font-normal opacity-90">
+              <span className="truncate mr-2">CATEGORY: {category.name}</span>
+              <span className="text-[10px] print:text-[7.5pt] font-normal opacity-90 shrink-0">
                 {category.subcategories.flatMap((s) => s.tasks).length} Tasks
               </span>
             </div>
@@ -293,7 +293,7 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
               {category.subcategories.map((sub) => (
                 <div key={sub.id} className="space-y-2 print:space-y-1">
                   <div className="font-bold text-xs print:text-[8pt] uppercase tracking-wide text-neutral-700 border-b border-neutral-300 pb-1 print:pb-0.5 flex items-center justify-between print-break-inside-avoid">
-                    <span>SUBCATEGORY: {sub.name}</span>
+                    <span className="truncate">SUBCATEGORY: {sub.name}</span>
                   </div>
 
                   {/* Tasks List */}
@@ -305,22 +305,29 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
                           key={task.id}
                           className="pl-2 border-l-2 border-neutral-200 print-break-inside-avoid"
                         >
-                          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-1.5 sm:gap-2 text-xs print:flex-row print:items-start">
-                            <div className="flex items-start gap-2 flex-1">
+                          <div
+                            className={cn(
+                              "flex gap-1.5 text-xs",
+                              settings.columnsLayout === "two_column"
+                                ? "flex-col items-start"
+                                : "flex-col sm:flex-row sm:items-start justify-between print:flex-row print:items-start sm:gap-2"
+                            )}
+                          >
+                            <div className="flex items-start gap-2 flex-1 min-w-0">
                               {/* Printable Checkbox */}
                               <span className="inline-block w-3.5 h-3.5 border border-black mt-0.5 text-center text-[10px] leading-3 font-bold shrink-0">
                                 {isTaskCompleted ? "✓" : ""}
                               </span>
                               <div className="min-w-0 flex-1">
                                 <span
-                                  className={`font-semibold ${
+                                  className={`font-semibold break-words ${
                                     isTaskCompleted ? "line-through text-neutral-500" : ""
                                   }`}
                                 >
                                   {task.title}
                                 </span>
                                 {task.description && (
-                                  <p className="text-[10px] text-neutral-600 mt-0.5">
+                                  <p className="text-[10px] text-neutral-600 mt-0.5 break-words">
                                     {task.description}
                                   </p>
                                 )}
@@ -328,7 +335,14 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
                             </div>
 
                             {/* Task Metadata (Priority, Due Date, Status) */}
-                            <div className="flex items-center gap-2 sm:gap-3 text-[10px] text-neutral-600 flex-wrap sm:shrink-0 pl-5.5 sm:pl-0">
+                            <div
+                              className={cn(
+                                "flex items-center text-[10px] text-neutral-600 flex-wrap",
+                                settings.columnsLayout === "two_column"
+                                  ? "gap-2 pl-5.5 pt-0.5"
+                                  : "gap-2 sm:gap-3 sm:shrink-0 pl-5.5 sm:pl-0"
+                              )}
+                            >
                               {settings.includePriority && (
                                 <span>
                                   Priority:{" "}

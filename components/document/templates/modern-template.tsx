@@ -1,7 +1,7 @@
 "use client";
 
 import { WorkspaceWithDetails } from "@/types/database";
-import { DocumentSettings } from "@/types/document";
+import { DocumentSettings, formatPeriodDisplay } from "@/types/document";
 import { formatDate, cn } from "@/lib/utils";
 
 interface TemplateProps {
@@ -152,14 +152,10 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
           <div>
             <span className="font-semibold text-neutral-700">Date:</span> {formatDate(new Date())}
           </div>
-          {(settings.customPeriod || (settings.formPeriod && settings.formPeriod !== "weekly")) && (
+          {(settings.customPeriod || settings.periodStartDate || settings.periodEndDate || (settings.formPeriod && settings.formPeriod !== "weekly")) && (
             <div>
               <span className="font-semibold text-neutral-700">Period:</span>{" "}
-              {settings.formPeriod === "custom"
-                ? settings.customPeriod || "Custom"
-                : settings.customPeriod
-                ? `${settings.formPeriod.toUpperCase()} (${settings.customPeriod})`
-                : settings.formPeriod.toUpperCase()}
+              {formatPeriodDisplay(settings)}
             </div>
           )}
           {settings.formName && (
@@ -213,12 +209,12 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
       )}
 
       {/* Main Categories Section */}
-      <div className={cn(isTwoColumn ? "grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-4" : "space-y-4 print:space-y-2")}>
+      <div className={cn(isTwoColumn ? "grid grid-cols-2 gap-3.5 print:grid-cols-2" : "space-y-4 print:space-y-2")}>
         {filteredCategories.map((category) => (
           <div
             key={category.id}
             className={cn(
-              "rounded-lg border p-3 print:p-1.5 print-break-inside-avoid space-y-2.5 bg-white shadow-2xs print:shadow-none",
+              "rounded-lg border p-3 print:p-1.5 print-break-inside-avoid space-y-2.5 bg-white shadow-2xs print:shadow-none min-w-0",
               accent.border,
               settings.themeColor === "category" ? "" : accent.cardTop
             )}
@@ -230,16 +226,16 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
           >
             {/* Category Banner */}
             <div className="flex items-center justify-between pb-1.5 border-b border-neutral-100">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 min-w-0">
                 <span
                   className="h-2.5 w-2.5 rounded-full shrink-0 print:border print:border-black"
                   style={{ backgroundColor: category.color || "#3b82f6" }}
                 />
-                <h3 className="font-bold text-xs print:text-[8.5pt] uppercase tracking-wider text-neutral-800">
+                <h3 className="font-bold text-xs print:text-[8.5pt] uppercase tracking-wider text-neutral-800 truncate">
                   {category.name}
                 </h3>
               </div>
-              <span className="text-[10px] print:text-[7pt] font-mono text-neutral-400">
+              <span className="text-[10px] print:text-[7pt] font-mono text-neutral-400 shrink-0">
                 {category.subcategories.flatMap((s) => s.tasks).length} tasks
               </span>
             </div>
@@ -250,7 +246,7 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
                 <div key={sub.id} className="space-y-1.5">
                   <div className="text-[11px] print:text-[7.5pt] font-semibold text-neutral-600 uppercase tracking-wide flex items-center gap-1.5">
                     <span className="text-neutral-300 print:text-black">↳</span>
-                    <span>{sub.name}</span>
+                    <span className="truncate">{sub.name}</span>
                   </div>
 
                   <div className="space-y-1.5 pl-3 border-l border-neutral-200/80 print:border-neutral-400">
@@ -258,7 +254,14 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
                       const isTaskCompleted = task.status === "completed";
                       return (
                         <div key={task.id} className="text-xs print:text-[8pt] space-y-1">
-                          <div className="flex items-start justify-between gap-2">
+                          <div
+                            className={cn(
+                              "flex gap-2",
+                              isTwoColumn
+                                ? "flex-col items-start"
+                                : "items-start justify-between"
+                            )}
+                          >
                             <div className="flex items-start gap-2 flex-1 min-w-0">
                               <span className="inline-block w-3.5 h-3.5 rounded border border-neutral-400 mt-0.5 text-center text-[10px] leading-3 font-bold shrink-0 print:border-black">
                                 {isTaskCompleted ? "✓" : ""}
@@ -266,14 +269,14 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
                               <div className="min-w-0 flex-1">
                                 <span
                                   className={cn(
-                                    "font-medium text-neutral-800",
+                                    "font-medium text-neutral-800 break-words",
                                     isTaskCompleted && "line-through text-neutral-400"
                                   )}
                                 >
                                   {task.title}
                                 </span>
                                 {task.description && (
-                                  <p className="text-[10.5px] print:text-[7pt] text-neutral-500 mt-0.5 line-clamp-2">
+                                  <p className="text-[10.5px] print:text-[7pt] text-neutral-500 mt-0.5 line-clamp-2 break-words">
                                     {task.description}
                                   </p>
                                 )}
@@ -281,7 +284,12 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
                             </div>
 
                             {/* Badges */}
-                            <div className="flex items-center gap-1.5 text-[9.5px] print:text-[7pt] shrink-0">
+                            <div
+                              className={cn(
+                                "flex items-center gap-1.5 text-[9.5px] print:text-[7pt] flex-wrap",
+                                isTwoColumn ? "pl-5.5 shrink-0" : "shrink-0"
+                              )}
+                            >
                               {settings.includePriority && task.priority !== "low" && (
                                 <span
                                   className={cn(

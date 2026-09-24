@@ -42,6 +42,8 @@ export interface DocumentSettings {
   formName: string;
   formPeriod: FormPeriod;
   customPeriod?: string;
+  periodStartDate?: string;
+  periodEndDate?: string;
   hideWorkspace?: boolean;
   customTitle: string;
   logoUrl?: string | null;
@@ -69,9 +71,67 @@ export const defaultDocumentSettings: DocumentSettings = {
   formName: "",
   formPeriod: "weekly",
   customPeriod: "",
+  periodStartDate: "",
+  periodEndDate: "",
   hideWorkspace: false,
   customTitle: "TASK MANAGEMENT FORM",
   logoUrl: null,
   organizationName: "",
   headerSubtitle: "",
 };
+
+export function formatPeriodDisplay(settings: DocumentSettings): string {
+  if (settings.formPeriod === "custom") {
+    const hasStart = !!settings.periodStartDate;
+    const hasEnd = !!settings.periodEndDate;
+    const customLabel = settings.customPeriod?.trim();
+
+    let dateRangeStr = "";
+    if (hasStart && hasEnd) {
+      const start = new Date(settings.periodStartDate + "T00:00:00");
+      const end = new Date(settings.periodEndDate + "T00:00:00");
+      const startFmt = start.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+      const endFmt = end.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+      dateRangeStr = startFmt === endFmt ? startFmt : `${startFmt} – ${endFmt}`;
+    } else if (hasStart) {
+      const start = new Date(settings.periodStartDate + "T00:00:00");
+      dateRangeStr = `From ${start.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })}`;
+    } else if (hasEnd) {
+      const end = new Date(settings.periodEndDate + "T00:00:00");
+      dateRangeStr = `Until ${end.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })}`;
+    }
+
+    if (customLabel && dateRangeStr) {
+      return `${customLabel} (${dateRangeStr})`;
+    }
+    if (customLabel) {
+      return customLabel;
+    }
+    if (dateRangeStr) {
+      return dateRangeStr;
+    }
+    return "Custom Period";
+  }
+
+  const periodBase = settings.formPeriod.toUpperCase();
+  if (settings.customPeriod?.trim()) {
+    return `${periodBase} (${settings.customPeriod.trim()})`;
+  }
+  return periodBase;
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import { WorkspaceWithDetails } from "@/types/database";
-import { DocumentSettings } from "@/types/document";
+import { DocumentSettings, formatPeriodDisplay } from "@/types/document";
 import { formatDate, cn } from "@/lib/utils";
 
 interface TemplateProps {
@@ -147,14 +147,9 @@ export function TabularTemplate({ workspace, settings }: TemplateProps) {
           <div>
             <strong>Date:</strong> {formatDate(new Date())}
           </div>
-          {(settings.customPeriod || (settings.formPeriod && settings.formPeriod !== "weekly")) && (
+          {(settings.customPeriod || settings.periodStartDate || settings.periodEndDate || (settings.formPeriod && settings.formPeriod !== "weekly")) && (
             <div>
-              <strong>Period:</strong>{" "}
-              {settings.formPeriod === "custom"
-                ? settings.customPeriod || "Custom"
-                : settings.customPeriod
-                ? `${settings.formPeriod.toUpperCase()} (${settings.customPeriod})`
-                : settings.formPeriod.toUpperCase()}
+              <strong>Period:</strong> {formatPeriodDisplay(settings)}
             </div>
           )}
           <div>

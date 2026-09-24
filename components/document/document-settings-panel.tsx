@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Printer, SlidersHorizontal, Upload, X, Palette, Type, LayoutGrid } from "lucide-react";
+import { Printer, SlidersHorizontal, Upload, X, Palette, Type, LayoutGrid, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface DocumentSettingsPanelProps {
@@ -258,18 +258,63 @@ export function DocumentSettingsPanel({
           </div>
         </div>
 
-        {/* Custom Period Input Field */}
+        {/* Custom Period Date Range Pickers & Optional Label */}
         {settings.formPeriod === "custom" && (
-          <div className="space-y-1 animate-in fade-in duration-150">
-            <Label className="text-[11px] font-medium text-muted-foreground">
-              Custom Period Label
-            </Label>
-            <Input
-              value={settings.customPeriod || ""}
-              onChange={(e) => update({ customPeriod: e.target.value })}
-              placeholder="e.g. Q1 2026, Sprint 14, Oct 1 – Oct 15"
-              className="h-7.5 text-xs rounded-md"
-            />
+          <div className="space-y-2.5 p-2.5 rounded-lg bg-muted/30 border border-border/60 animate-in fade-in duration-150">
+            <div className="flex items-center justify-between">
+              <Label className="text-[11px] font-semibold text-foreground flex items-center gap-1.5">
+                <Calendar className="h-3 w-3 text-primary" />
+                <span>Custom Date Range</span>
+              </Label>
+              {(settings.periodStartDate || settings.periodEndDate || settings.customPeriod) && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    update({
+                      periodStartDate: "",
+                      periodEndDate: "",
+                      customPeriod: "",
+                    })
+                  }
+                  className="text-[10px] text-muted-foreground hover:text-destructive cursor-pointer transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <div className="space-y-1">
+                <Label className="text-[10px] text-muted-foreground">Start Date</Label>
+                <Input
+                  type="date"
+                  value={settings.periodStartDate || ""}
+                  onChange={(e) => update({ periodStartDate: e.target.value })}
+                  className="h-7 text-xs rounded-md bg-background px-2"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-[10px] text-muted-foreground">End Date</Label>
+                <Input
+                  type="date"
+                  value={settings.periodEndDate || ""}
+                  onChange={(e) => update({ periodEndDate: e.target.value })}
+                  className="h-7 text-xs rounded-md bg-background px-2"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <Label className="text-[10px] text-muted-foreground">
+                Period Name / Label (Optional)
+              </Label>
+              <Input
+                value={settings.customPeriod || ""}
+                onChange={(e) => update({ customPeriod: e.target.value })}
+                placeholder="e.g. Sprint 14, Q4 Review"
+                className="h-7.5 text-xs rounded-md bg-background"
+              />
+            </div>
           </div>
         )}
 
@@ -373,16 +418,6 @@ export function DocumentSettingsPanel({
               className="h-7.5 text-xs rounded-md"
             />
           </div>
-
-          {/* Hide Workspace Name Option */}
-          <label className="flex items-center gap-2 cursor-pointer select-none pt-0.5 text-[11px] text-muted-foreground hover:text-foreground">
-            <Checkbox
-              checked={settings.hideWorkspace}
-              onCheckedChange={(c) => update({ hideWorkspace: !!c })}
-              className="h-3.5 w-3.5"
-            />
-            <span>Hide Workspace Name on Document</span>
-          </label>
         </div>
 
         {/* Section Toggles */}

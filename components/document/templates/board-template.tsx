@@ -1,7 +1,7 @@
 "use client";
 
 import { WorkspaceWithDetails } from "@/types/database";
-import { DocumentSettings } from "@/types/document";
+import { DocumentSettings, formatPeriodDisplay } from "@/types/document";
 import { formatDate, cn } from "@/lib/utils";
 
 interface TemplateProps {
@@ -174,14 +174,10 @@ export function BoardTemplate({ workspace, settings }: TemplateProps) {
           <div>
             <span className="font-semibold text-neutral-800">Date:</span> {formatDate(new Date())}
           </div>
-          {(settings.customPeriod || (settings.formPeriod && settings.formPeriod !== "weekly")) && (
+          {(settings.customPeriod || settings.periodStartDate || settings.periodEndDate || (settings.formPeriod && settings.formPeriod !== "weekly")) && (
             <div>
               <span className="font-semibold text-neutral-800">Period:</span>{" "}
-              {settings.formPeriod === "custom"
-                ? settings.customPeriod || "Custom"
-                : settings.customPeriod
-                ? `${settings.formPeriod.toUpperCase()} (${settings.customPeriod})`
-                : settings.formPeriod.toUpperCase()}
+              {formatPeriodDisplay(settings)}
             </div>
           )}
           <div>

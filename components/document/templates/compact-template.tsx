@@ -1,7 +1,7 @@
 "use client";
 
 import { WorkspaceWithDetails } from "@/types/database";
-import { DocumentSettings } from "@/types/document";
+import { DocumentSettings, formatPeriodDisplay } from "@/types/document";
 import { formatDate, cn } from "@/lib/utils";
 
 interface TemplateProps {
@@ -101,7 +101,8 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
                 {settings.customTitle || workspace.name}
               </span>
               <span className="text-[9px] text-neutral-500">
-                ({!settings.hideWorkspace ? `${workspace.name} • ` : ""}{formatDate(new Date())}{settings.customPeriod ? ` • ${settings.customPeriod}` : settings.formPeriod && settings.formPeriod !== "weekly" ? ` • ${settings.formPeriod.toUpperCase()}` : ""})
+                ({!settings.hideWorkspace ? `${workspace.name} • ` : ""}{formatDate(new Date())}
+                {(settings.customPeriod || settings.periodStartDate || settings.periodEndDate || (settings.formPeriod && settings.formPeriod !== "weekly")) ? ` • ${formatPeriodDisplay(settings)}` : ""})
               </span>
             </div>
             {settings.headerSubtitle && (
@@ -118,12 +119,18 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
       </div>
 
       {/* Multi-column Category Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div
+        className={cn(
+          settings.columnsLayout === "two_column"
+            ? "grid grid-cols-2 gap-3 print:grid-cols-2"
+            : "space-y-3 print:space-y-2"
+        )}
+      >
         {filteredCategories.map((category) => (
           <div
             key={category.id}
             className={cn(
-              "border rounded p-2 space-y-2 print-break-inside-avoid bg-neutral-50/50",
+              "border rounded p-2 space-y-2 print-break-inside-avoid bg-neutral-50/50 min-w-0",
               accent.cardBorder
             )}
           >
@@ -139,8 +146,8 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
                   : undefined
               }
             >
-              <span>{category.name}</span>
-              <span className="text-[8pt] font-normal text-neutral-500">
+              <span className="truncate mr-1">{category.name}</span>
+              <span className="text-[8pt] font-normal text-neutral-500 shrink-0">
                 {category.subcategories.flatMap((s) => s.tasks).length} items
               </span>
             </div>
@@ -148,7 +155,7 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
             <div className="space-y-2">
               {category.subcategories.map((sub) => (
                 <div key={sub.id} className="space-y-1">
-                  <div className="font-semibold text-[8.5pt] text-neutral-600">
+                  <div className="font-semibold text-[8.5pt] text-neutral-600 truncate">
                     • {sub.name}
                   </div>
 
@@ -157,21 +164,34 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
                       const isCompleted = task.status === "completed";
                       return (
                         <div key={task.id} className="space-y-0.5">
-                          <div className="flex items-center justify-between gap-1 text-[8.5pt]">
+                          <div
+                            className={cn(
+                              "flex gap-1 text-[8.5pt]",
+                              settings.columnsLayout === "two_column"
+                                ? "flex-col items-start"
+                                : "items-center justify-between"
+                            )}
+                          >
                             <div className="flex items-center gap-1.5 min-w-0 flex-1">
                               <span className="inline-block w-3 h-3 border border-black text-center text-[8px] leading-2.5 shrink-0">
                                 {isCompleted ? "✓" : ""}
                               </span>
                               <span
-                                className={`truncate ${
+                                className={cn(
+                                  "break-words",
                                   isCompleted ? "line-through text-neutral-400" : ""
-                                }`}
+                                )}
                               >
                                 {task.title}
                               </span>
                             </div>
                             {settings.includeDueDates && task.due_date && (
-                              <span className="text-[7.5pt] text-neutral-500 shrink-0 font-mono">
+                              <span
+                                className={cn(
+                                  "text-[7.5pt] text-neutral-500 font-mono",
+                                  settings.columnsLayout === "two_column" ? "pl-4.5 shrink-0" : "shrink-0"
+                                )}
+                              >
                                 {formatDate(task.due_date)}
                               </span>
                             )}
