@@ -34,8 +34,20 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
   const pending = total - completed;
   const progressPercent = total > 0 ? Math.round((completed / total) * 100) : 0;
 
+  const fontClass =
+    settings.fontFamily === "serif"
+      ? "font-serif"
+      : settings.fontFamily === "mono"
+      ? "font-mono"
+      : "font-sans";
+
   return (
-    <div className="text-black font-sans text-[11pt] print:text-[9.5pt] leading-normal print:leading-tight space-y-6 print:space-y-3">
+    <div
+      className={cn(
+        "text-black text-[11pt] print:text-[9.5pt] leading-normal print:leading-tight space-y-6 print:space-y-3",
+        fontClass
+      )}
+    >
       {/* Form Header */}
       <div className="border-b-2 border-black pb-3 print:pb-1.5">
         <div className="flex items-center justify-between gap-4">
@@ -163,7 +175,13 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
       )}
 
       {/* Categories & Tasks Hierarchy */}
-      <div className="space-y-6 print:space-y-2.5">
+      <div
+        className={cn(
+          settings.columnsLayout === "two_column"
+            ? "grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-4"
+            : "space-y-6 print:space-y-2.5"
+        )}
+      >
         {filteredCategories.map((category) => (
           <div key={category.id} className="space-y-3 print:space-y-1.5">
             {/* Category Header */}

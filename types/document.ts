@@ -1,14 +1,35 @@
 export type PaperSize = "a4" | "letter";
 export type Orientation = "portrait" | "landscape";
 export type MarginSize = "normal" | "compact" | "wide";
-export type DocumentTemplateId = "professional" | "simple" | "compact";
-export type FormPeriod = "daily" | "weekly" | "monthly" | "custom";
+export type FormPeriod = "daily" | "weekly" | "monthly";
+export type DocumentTemplateId =
+  | "professional"
+  | "modern"
+  | "tabular"
+  | "board"
+  | "simple"
+  | "compact";
+
+export type DocumentThemeColor =
+  | "monochrome"
+  | "indigo"
+  | "slate"
+  | "emerald"
+  | "amber"
+  | "category";
+
+export type DocumentFontFamily = "sans" | "serif" | "mono";
+
+export type DocumentColumns = "single" | "two_column";
 
 export interface DocumentSettings {
   paperSize: PaperSize;
   orientation: Orientation;
   margin: MarginSize;
   template: DocumentTemplateId;
+  themeColor: DocumentThemeColor;
+  fontFamily: DocumentFontFamily;
+  columnsLayout: DocumentColumns;
   includeSummary: boolean;
   includeNotes: boolean;
   includePriority: boolean;
@@ -31,6 +52,9 @@ export const defaultDocumentSettings: DocumentSettings = {
   orientation: "portrait",
   margin: "normal",
   template: "professional",
+  themeColor: "monochrome",
+  fontFamily: "sans",
+  columnsLayout: "single",
   includeSummary: true,
   includeNotes: true,
   includePriority: true,

@@ -2,7 +2,7 @@
 
 import { WorkspaceWithDetails } from "@/types/database";
 import { DocumentSettings } from "@/types/document";
-import { formatDate } from "@/lib/utils";
+import { formatDate, cn } from "@/lib/utils";
 
 interface TemplateProps {
   workspace: WorkspaceWithDetails;
@@ -24,8 +24,20 @@ export function SimpleTemplate({ workspace, settings }: TemplateProps) {
     }))
     .filter((cat) => cat.subcategories.length > 0);
 
+  const fontClass =
+    settings.fontFamily === "serif"
+      ? "font-serif"
+      : settings.fontFamily === "sans"
+      ? "font-sans"
+      : "font-mono";
+
   return (
-    <div className="text-black font-mono text-[10pt] print:text-[8.5pt] leading-relaxed print:leading-tight space-y-4 print:space-y-2">
+    <div
+      className={cn(
+        "text-black text-[10pt] print:text-[8.5pt] leading-relaxed print:leading-tight space-y-4 print:space-y-2",
+        fontClass
+      )}
+    >
       {/* Simple Text Header */}
       <div className="border-b border-black pb-2 print:pb-1">
         <div className="flex items-center justify-between gap-3">

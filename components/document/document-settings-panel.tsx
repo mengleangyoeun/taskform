@@ -1,19 +1,43 @@
 "use client";
 
 import { useRef } from "react";
-import { DocumentSettings, PaperSize, Orientation, MarginSize, DocumentTemplateId, FormPeriod } from "@/types/document";
+import {
+  DocumentSettings,
+  PaperSize,
+  Orientation,
+  MarginSize,
+  DocumentTemplateId,
+  DocumentThemeColor,
+  DocumentFontFamily,
+  DocumentColumns,
+  FormPeriod,
+} from "@/types/document";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Printer, SlidersHorizontal, Upload, X } from "lucide-react";
+import { Printer, SlidersHorizontal, Upload, X, Palette, Type, LayoutGrid } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface DocumentSettingsPanelProps {
   settings: DocumentSettings;
   onChange: (settings: DocumentSettings) => void;
   onPrint: () => void;
 }
+
+const THEME_OPTIONS: { id: DocumentThemeColor; label: string; dotClass: string }[] = [
+  { id: "monochrome", label: "Onyx", dotClass: "bg-neutral-900 border-neutral-700" },
+  { id: "indigo", label: "Indigo", dotClass: "bg-indigo-600 border-indigo-400" },
+  { id: "slate", label: "Slate", dotClass: "bg-slate-700 border-slate-500" },
+  { id: "emerald", label: "Emerald", dotClass: "bg-emerald-600 border-emerald-400" },
+  { id: "amber", label: "Amber", dotClass: "bg-amber-600 border-amber-400" },
+  {
+    id: "category",
+    label: "Dynamic",
+    dotClass: "bg-gradient-to-tr from-blue-500 via-emerald-500 to-amber-500 border-transparent",
+  },
+];
 
 export function DocumentSettingsPanel({
   settings,
@@ -71,10 +95,92 @@ export function DocumentSettingsPanel({
             </SelectTrigger>
             <SelectContent className="text-xs">
               <SelectItem value="professional">Professional Form (Polished)</SelectItem>
-              <SelectItem value="simple">Simple Checklist (B&W)</SelectItem>
-              <SelectItem value="compact">Compact Grid (Multi-column)</SelectItem>
+              <SelectItem value="modern">Executive Modern (Progress & Accent)</SelectItem>
+              <SelectItem value="tabular">Accounting Ledger (Audit Table)</SelectItem>
+              <SelectItem value="board">Kanban Board Matrix (Status Lanes)</SelectItem>
+              <SelectItem value="simple">Simple Checklist (Minimalist B&W)</SelectItem>
+              <SelectItem value="compact">Compact Grid (Dense Multi-column)</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        {/* Theme Color Palette */}
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
+            <Palette className="h-3 w-3 text-primary" />
+            <span>Theme Accent Palette</span>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
+            {THEME_OPTIONS.map((theme) => {
+              const isSelected = settings.themeColor === theme.id;
+              return (
+                <button
+                  key={theme.id}
+                  type="button"
+                  onClick={() => update({ themeColor: theme.id })}
+                  className={cn(
+                    "flex items-center gap-1.5 px-2 py-1 rounded-md border text-[11px] font-medium transition-all cursor-pointer",
+                    isSelected
+                      ? "border-primary bg-primary/10 text-foreground ring-1 ring-primary/40 font-semibold"
+                      : "border-border/60 bg-background/50 text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}
+                  title={theme.label}
+                >
+                  <span
+                    className={cn(
+                      "w-2.5 h-2.5 rounded-full shrink-0 border",
+                      theme.dotClass
+                    )}
+                  />
+                  <span className="truncate">{theme.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Typography & Layout Format */}
+        <div className="grid grid-cols-2 gap-2">
+          {/* Font Family */}
+          <div className="space-y-1">
+            <div className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
+              <Type className="h-3 w-3" />
+              <span>Typography</span>
+            </div>
+            <Select
+              value={settings.fontFamily}
+              onValueChange={(val) => update({ fontFamily: val as DocumentFontFamily })}
+            >
+              <SelectTrigger className="h-7.5 text-xs rounded-md">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="text-xs">
+                <SelectItem value="sans">Modern Sans (Clean)</SelectItem>
+                <SelectItem value="serif">Editorial Serif (Classic)</SelectItem>
+                <SelectItem value="mono">Technical Monospace</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Column Layout */}
+          <div className="space-y-1">
+            <div className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
+              <LayoutGrid className="h-3 w-3" />
+              <span>Columns</span>
+            </div>
+            <Select
+              value={settings.columnsLayout}
+              onValueChange={(val) => update({ columnsLayout: val as DocumentColumns })}
+            >
+              <SelectTrigger className="h-7.5 text-xs rounded-md">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="text-xs">
+                <SelectItem value="single">Single Column</SelectItem>
+                <SelectItem value="two_column">2 Columns (Grid)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* Paper Size & Orientation */}

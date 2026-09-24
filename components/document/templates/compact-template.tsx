@@ -2,7 +2,7 @@
 
 import { WorkspaceWithDetails } from "@/types/database";
 import { DocumentSettings } from "@/types/document";
-import { formatDate } from "@/lib/utils";
+import { formatDate, cn } from "@/lib/utils";
 
 interface TemplateProps {
   workspace: WorkspaceWithDetails;
@@ -24,8 +24,20 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
     }))
     .filter((cat) => cat.subcategories.length > 0);
 
+  const fontClass =
+    settings.fontFamily === "serif"
+      ? "font-serif"
+      : settings.fontFamily === "mono"
+      ? "font-mono"
+      : "font-sans";
+
   return (
-    <div className="text-black font-sans text-[9pt] leading-tight space-y-3">
+    <div
+      className={cn(
+        "text-black text-[9pt] leading-tight space-y-3",
+        fontClass
+      )}
+    >
       {/* Compact Header */}
       <div className="flex items-center justify-between border-b border-black pb-1.5">
         <div className="flex items-center gap-2">

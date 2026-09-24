@@ -189,6 +189,29 @@ assert(batchContent.includes("BatchActionBar"), "batch-action-bar.tsx must expor
 
 console.log("✓ Command Palette (⌘K), Drag & Drop reordering, and Batch Multi-Select actions verified");
 
+// Test 6: Verify Document Templates, Themes, Typography & Layouts
+console.log("\n-> Test 6: Verifying Document Templates, Themes & Multi-Column Layouts...");
+const docTypesPath = path.join(process.cwd(), "types", "document.ts");
+const docTypesContent = fs.readFileSync(docTypesPath, "utf-8");
+const expectedTemplates = ["professional", "modern", "tabular", "board", "simple", "compact"];
+for (const tmpl of expectedTemplates) {
+  assert(docTypesContent.includes(`"${tmpl}"`), `Document template ${tmpl} must be defined in document types`);
+  const tmplFile = path.join(process.cwd(), "components", "document", "templates", `${tmpl}-template.tsx`);
+  assert(fs.existsSync(tmplFile), `Template component file ${tmpl}-template.tsx must exist`);
+}
+
+const expectedThemes = ["monochrome", "indigo", "slate", "emerald", "amber", "category"];
+for (const theme of expectedThemes) {
+  assert(docTypesContent.includes(`"${theme}"`), `Document theme color ${theme} must be defined in document types`);
+}
+
+const rendererPath = path.join(process.cwd(), "components", "document", "document-renderer.tsx");
+const rendererContent = fs.readFileSync(rendererPath, "utf-8");
+assert(rendererContent.includes("ModernTemplate"), "DocumentRenderer must include ModernTemplate");
+assert(rendererContent.includes("TabularTemplate"), "DocumentRenderer must include TabularTemplate");
+assert(rendererContent.includes("BoardTemplate"), "DocumentRenderer must include BoardTemplate");
+console.log("✓ All 6 document templates (Professional, Modern, Tabular, Board, Simple, Compact) & themes verified");
+
 console.log("\n==================================================");
 console.log("   ALL VERIFICATION TESTS PASSED SUCCESSFULLY! ✓");
 console.log("==================================================");
