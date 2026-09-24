@@ -13,7 +13,7 @@ const THEME_ACCENTS = {
   monochrome: {
     headerBorder: "border-black",
     summaryBorder: "border-black",
-    summaryBg: "bg-neutral-50 print:bg-transparent",
+    summaryBg: "bg-neutral-50",
     summaryTitleBorder: "border-black",
     categoryHeaderBg: "bg-neutral-800",
     categoryHeaderText: "text-white",
@@ -22,7 +22,7 @@ const THEME_ACCENTS = {
   indigo: {
     headerBorder: "border-indigo-600",
     summaryBorder: "border-indigo-300",
-    summaryBg: "bg-indigo-50/70 print:bg-transparent",
+    summaryBg: "bg-indigo-50/70",
     summaryTitleBorder: "border-indigo-300",
     categoryHeaderBg: "bg-indigo-700",
     categoryHeaderText: "text-white",
@@ -31,7 +31,7 @@ const THEME_ACCENTS = {
   slate: {
     headerBorder: "border-slate-700",
     summaryBorder: "border-slate-400",
-    summaryBg: "bg-slate-100/70 print:bg-transparent",
+    summaryBg: "bg-slate-100/70",
     summaryTitleBorder: "border-slate-300",
     categoryHeaderBg: "bg-slate-700",
     categoryHeaderText: "text-white",
@@ -40,7 +40,7 @@ const THEME_ACCENTS = {
   emerald: {
     headerBorder: "border-emerald-600",
     summaryBorder: "border-emerald-300",
-    summaryBg: "bg-emerald-50/70 print:bg-transparent",
+    summaryBg: "bg-emerald-50/70",
     summaryTitleBorder: "border-emerald-300",
     categoryHeaderBg: "bg-emerald-700",
     categoryHeaderText: "text-white",
@@ -49,7 +49,7 @@ const THEME_ACCENTS = {
   amber: {
     headerBorder: "border-amber-600",
     summaryBorder: "border-amber-300",
-    summaryBg: "bg-amber-50/70 print:bg-transparent",
+    summaryBg: "bg-amber-50/70",
     summaryTitleBorder: "border-amber-300",
     categoryHeaderBg: "bg-amber-700",
     categoryHeaderText: "text-white",
@@ -58,7 +58,7 @@ const THEME_ACCENTS = {
   category: {
     headerBorder: "border-neutral-800",
     summaryBorder: "border-neutral-300",
-    summaryBg: "bg-neutral-50 print:bg-transparent",
+    summaryBg: "bg-neutral-50",
     summaryTitleBorder: "border-neutral-300",
     categoryHeaderBg: "bg-neutral-800",
     categoryHeaderText: "text-white",
@@ -108,7 +108,7 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
       )}
     >
       {/* Form Header */}
-      <div className={cn("border-b-2 pb-3 print:pb-1.5 print:border-black", accent.headerBorder)}>
+      <div className={cn("border-b-2 pb-3 print:pb-1.5", accent.headerBorder)}>
         <div className="flex flex-col sm:flex-row print:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           {/* Logo or Organization on the left */}
           {settings.logoUrl ? (
@@ -210,14 +210,14 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
       {settings.includeSummary && (
         <div
           className={cn(
-            "border p-3 print:p-2 rounded-xs print-break-inside-avoid print:border-black print:bg-transparent shadow-2xs print:shadow-none",
+            "border p-3 print:p-2 rounded-xs print-break-inside-avoid shadow-2xs print:shadow-none",
             accent.summaryBorder,
             accent.summaryBg
           )}
         >
           <div
             className={cn(
-              "text-xs print:text-[8pt] font-bold uppercase tracking-wider mb-2 print:mb-1 border-b pb-1 print:pb-0.5 print:border-black",
+              "text-xs print:text-[8pt] font-bold uppercase tracking-wider mb-2 print:mb-1 border-b pb-1 print:pb-0.5",
               accent.summaryTitleBorder
             )}
           >
@@ -257,7 +257,7 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
             {/* Category Header */}
             <div
               className={cn(
-                "text-white font-bold text-xs print:text-[8pt] uppercase tracking-wider px-3 print:px-2 py-1.5 print:py-1 rounded-xs flex items-center justify-between print:bg-black print:text-white print-break-inside-avoid shadow-2xs print:shadow-none",
+                "text-white font-bold text-xs print:text-[8pt] uppercase tracking-wider px-3 print:px-2 py-1.5 print:py-1 rounded-xs flex items-center justify-between print:text-white print-break-inside-avoid shadow-2xs print:shadow-none",
                 settings.themeColor === "category" ? "" : accent.categoryHeaderBg
               )}
               style={

@@ -137,7 +137,7 @@ export function BoardTemplate({ workspace, settings }: TemplateProps) {
       {/* Board Header */}
       <div
         className={cn(
-          "flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 print:pb-1.5 print:border-black",
+          "flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 print:pb-1.5",
           accent.headerBorder
         )}
       >
@@ -185,7 +185,7 @@ export function BoardTemplate({ workspace, settings }: TemplateProps) {
             <div
               key={`metric-${col.id}`}
               className={cn(
-                "p-2 rounded border print:border-black print:bg-transparent shadow-2xs print:shadow-none",
+                "p-2 rounded border shadow-2xs print:shadow-none",
                 accent.cardBorder,
                 accent.columnBg
               )}
@@ -216,7 +216,7 @@ export function BoardTemplate({ workspace, settings }: TemplateProps) {
             <div
               key={column.id}
               className={cn(
-                "flex flex-col rounded-lg border print:border-black print:bg-transparent p-2 print:p-1.5 min-h-[140px] space-y-2 print:space-y-1.5 shadow-2xs print:shadow-none",
+                "flex flex-col rounded-lg border p-2 print:p-1.5 min-h-[140px] space-y-2 print:space-y-1.5 shadow-2xs print:shadow-none",
                 accent.cardBorder,
                 accent.columnBg
               )}
@@ -224,7 +224,7 @@ export function BoardTemplate({ workspace, settings }: TemplateProps) {
               {/* Column Header */}
               <div
                 className={cn(
-                  "flex items-center justify-between pb-1.5 px-1 py-0.5 rounded print:border-black",
+                  "flex items-center justify-between pb-1.5 px-1 py-0.5 rounded",
                   accent.columnHeader
                 )}
               >

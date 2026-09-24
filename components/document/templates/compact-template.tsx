@@ -80,7 +80,7 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
       )}
     >
       {/* Compact Header */}
-      <div className={cn("flex flex-col sm:flex-row print:flex-row sm:items-center justify-between border-b pb-1.5 gap-2 print:border-black", accent.headerBorder)}>
+      <div className={cn("flex flex-col sm:flex-row print:flex-row sm:items-center justify-between border-b pb-1.5 gap-2", accent.headerBorder)}>
         <div className="flex items-center gap-2">
           {settings.logoUrl && (
             /* eslint-disable-next-line @next/next/no-img-element */
@@ -123,13 +123,13 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
           <div
             key={category.id}
             className={cn(
-              "border rounded p-2 space-y-2 print-break-inside-avoid bg-neutral-50/50 print:bg-transparent print:border-black",
+              "border rounded p-2 space-y-2 print-break-inside-avoid bg-neutral-50/50",
               accent.cardBorder
             )}
           >
             <div
               className={cn(
-                "font-bold text-[10pt] uppercase border-b pb-0.5 flex justify-between items-center print:border-black",
+                "font-bold text-[10pt] uppercase border-b pb-0.5 flex justify-between items-center",
                 accent.catBorder,
                 accent.catText
               )}

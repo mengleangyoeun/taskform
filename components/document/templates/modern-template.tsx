@@ -111,10 +111,10 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
       )}
     >
       {/* Top Accent Stripe */}
-      <div className={cn("h-1.5 w-full rounded-full print:bg-black", accent.bar)} />
+      <div className={cn("h-1.5 w-full rounded-full", accent.bar)} />
 
       {/* Modern Letterhead Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-200 print:pb-2 print:border-black">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-200 print:pb-2">
         {/* Left: Branding & Logo */}
         <div className="flex items-center gap-3.5">
           {settings.logoUrl && (
@@ -160,7 +160,7 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
 
       {/* Modern Executive Summary Card */}
       {settings.includeSummary && (
-        <div className="rounded-lg bg-neutral-50/80 border border-neutral-200/80 p-3.5 print:p-2 print:bg-transparent print:border-black print-break-inside-avoid space-y-2.5">
+        <div className="rounded-lg bg-neutral-50/80 border border-neutral-200/80 p-3.5 print:p-2 print-break-inside-avoid space-y-2.5">
           <div className="flex items-center justify-between">
             <span className="text-xs print:text-[8pt] font-bold uppercase tracking-wider text-neutral-600">
               Execution Progress
@@ -171,9 +171,9 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
           </div>
 
           {/* Graphical Progress Bar */}
-          <div className="w-full bg-neutral-200 h-2 rounded-full overflow-hidden print:border print:border-black print:bg-white">
+          <div className="w-full bg-neutral-200 h-2 rounded-full overflow-hidden">
             <div
-              className={cn("h-full transition-all print:bg-black", accent.progress)}
+              className={cn("h-full transition-all", accent.progress)}
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -206,7 +206,7 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
           <div
             key={category.id}
             className={cn(
-              "rounded-lg border p-3 print:p-1.5 print:border-black print-break-inside-avoid space-y-2.5 bg-white shadow-2xs print:shadow-none",
+              "rounded-lg border p-3 print:p-1.5 print-break-inside-avoid space-y-2.5 bg-white shadow-2xs print:shadow-none",
               accent.border,
               settings.themeColor === "category" ? "" : accent.cardTop
             )}
@@ -217,7 +217,7 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
             }
           >
             {/* Category Banner */}
-            <div className="flex items-center justify-between pb-1.5 border-b border-neutral-100 print:border-black">
+            <div className="flex items-center justify-between pb-1.5 border-b border-neutral-100">
               <div className="flex items-center gap-2">
                 <span
                   className="h-2.5 w-2.5 rounded-full shrink-0 print:border print:border-black"

@@ -110,7 +110,7 @@ export function TabularTemplate({ workspace, settings }: TemplateProps) {
       {/* Tabular Header */}
       <div
         className={cn(
-          "flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b-2 gap-3 print:border-black",
+          "flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b-2 gap-3",
           accent.headerBorder
         )}
       >
@@ -155,14 +155,14 @@ export function TabularTemplate({ workspace, settings }: TemplateProps) {
       <div className="overflow-x-auto print:overflow-visible">
         <table
           className={cn(
-            "w-full min-w-[580px] print:min-w-0 border-collapse border text-left text-[9.5pt] print:text-[8pt] print:border-black",
+            "w-full min-w-[580px] print:min-w-0 border-collapse border text-left text-[9.5pt] print:text-[8pt]",
             accent.tableBorder
           )}
         >
           <thead>
             <tr
               className={cn(
-                "font-semibold text-[8.5pt] print:bg-black print:text-white uppercase tracking-wider",
+                "font-semibold text-[8.5pt] uppercase tracking-wider",
                 accent.thBg
               )}
             >

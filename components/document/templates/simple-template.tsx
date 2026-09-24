@@ -50,7 +50,7 @@ export function SimpleTemplate({ workspace, settings }: TemplateProps) {
       )}
     >
       {/* Simple Text Header */}
-      <div className={cn("border-b pb-2 print:pb-1 print:border-black", headerBorder)}>
+      <div className={cn("border-b pb-2 print:pb-1", headerBorder)}>
         <div className="flex flex-col sm:flex-row print:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
           <div className="flex items-center gap-3">
             {settings.logoUrl && (
