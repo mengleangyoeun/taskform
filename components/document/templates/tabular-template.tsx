@@ -139,12 +139,24 @@ export function TabularTemplate({ workspace, settings }: TemplateProps) {
         </div>
 
         <div className="text-xs text-neutral-600 sm:text-right space-y-0.5 shrink-0">
-          <div>
-            <strong>Workspace:</strong> {workspace.name}
-          </div>
+          {!settings.hideWorkspace && (
+            <div>
+              <strong>Workspace:</strong> {workspace.name}
+            </div>
+          )}
           <div>
             <strong>Date:</strong> {formatDate(new Date())}
           </div>
+          {(settings.customPeriod || (settings.formPeriod && settings.formPeriod !== "weekly")) && (
+            <div>
+              <strong>Period:</strong>{" "}
+              {settings.formPeriod === "custom"
+                ? settings.customPeriod || "Custom"
+                : settings.customPeriod
+                ? `${settings.formPeriod.toUpperCase()} (${settings.customPeriod})`
+                : settings.formPeriod.toUpperCase()}
+            </div>
+          )}
           <div>
             <strong>Items:</strong> {total} ({completed} completed)
           </div>

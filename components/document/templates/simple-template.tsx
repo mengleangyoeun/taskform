@@ -77,9 +77,19 @@ export function SimpleTemplate({ workspace, settings }: TemplateProps) {
               )}
             </div>
           </div>
-          <div className="text-xs print:text-[7.5pt] text-neutral-600 text-left sm:text-right shrink-0">
+          <div className="text-xs print:text-[7.5pt] text-neutral-600 text-left sm:text-right space-y-0.5 shrink-0">
             <div>Date: {formatDate(new Date())}</div>
-            <div>Workspace: {workspace.name}</div>
+            {(settings.customPeriod || (settings.formPeriod && settings.formPeriod !== "weekly")) && (
+              <div>
+                Period:{" "}
+                {settings.formPeriod === "custom"
+                  ? settings.customPeriod || "Custom"
+                  : settings.customPeriod
+                  ? `${settings.formPeriod.toUpperCase()} (${settings.customPeriod})`
+                  : settings.formPeriod.toUpperCase()}
+              </div>
+            )}
+            {!settings.hideWorkspace && <div>Workspace: {workspace.name}</div>}
           </div>
         </div>
       </div>

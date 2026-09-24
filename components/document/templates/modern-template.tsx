@@ -144,12 +144,24 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
 
         {/* Right: Workspace & Meta */}
         <div className="text-xs print:text-[8pt] text-neutral-500 sm:text-right space-y-0.5 shrink-0">
-          <div>
-            <span className="font-semibold text-neutral-700">Workspace:</span> {workspace.name}
-          </div>
+          {!settings.hideWorkspace && (
+            <div>
+              <span className="font-semibold text-neutral-700">Workspace:</span> {workspace.name}
+            </div>
+          )}
           <div>
             <span className="font-semibold text-neutral-700">Date:</span> {formatDate(new Date())}
           </div>
+          {(settings.customPeriod || (settings.formPeriod && settings.formPeriod !== "weekly")) && (
+            <div>
+              <span className="font-semibold text-neutral-700">Period:</span>{" "}
+              {settings.formPeriod === "custom"
+                ? settings.customPeriod || "Custom"
+                : settings.customPeriod
+                ? `${settings.formPeriod.toUpperCase()} (${settings.customPeriod})`
+                : settings.formPeriod.toUpperCase()}
+            </div>
+          )}
           {settings.formName && (
             <div>
               <span className="font-semibold text-neutral-700">Prepared by:</span> {settings.formName}

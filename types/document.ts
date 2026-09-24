@@ -1,7 +1,7 @@
 export type PaperSize = "a4" | "letter";
 export type Orientation = "portrait" | "landscape";
 export type MarginSize = "normal" | "compact" | "wide";
-export type FormPeriod = "daily" | "weekly" | "monthly";
+export type FormPeriod = "daily" | "weekly" | "monthly" | "quarterly" | "annual" | "custom";
 export type DocumentTemplateId =
   | "professional"
   | "modern"
@@ -41,6 +41,8 @@ export interface DocumentSettings {
   emptyRowsCount: number;
   formName: string;
   formPeriod: FormPeriod;
+  customPeriod?: string;
+  hideWorkspace?: boolean;
   customTitle: string;
   logoUrl?: string | null;
   organizationName?: string;
@@ -66,6 +68,8 @@ export const defaultDocumentSettings: DocumentSettings = {
   emptyRowsCount: 0,
   formName: "",
   formPeriod: "weekly",
+  customPeriod: "",
+  hideWorkspace: false,
   customTitle: "TASK MANAGEMENT FORM",
   logoUrl: null,
   organizationName: "",

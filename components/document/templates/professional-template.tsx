@@ -163,7 +163,7 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
               </div>
             )}
             <div className="text-xs print:text-[8pt] text-neutral-600 font-medium">
-              Workspace: {workspace.name} • Generated: {formatDate(new Date())}
+              {!settings.hideWorkspace && <>Workspace: {workspace.name} • </>}Generated: {formatDate(new Date())}
             </div>
           </div>
         </div>
@@ -185,24 +185,40 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
         </div>
         <div className="flex items-center gap-3 print:gap-1.5 flex-wrap">
           <span className="font-semibold">Period:</span>
-          <span className="flex items-center gap-1">
-            <span className="inline-block w-3.5 h-3.5 print:w-3 print:h-3 border border-black text-center text-[9px] print:text-[7pt] leading-3 print:leading-2.5">
-              {settings.formPeriod === "daily" ? "✓" : ""}
+          {settings.formPeriod === "custom" ? (
+            <span className="flex items-center gap-1">
+              <span className="inline-block w-3.5 h-3.5 print:w-3 print:h-3 border border-black text-center text-[9px] print:text-[7pt] leading-3 print:leading-2.5">
+                ✓
+              </span>
+              <span className="font-bold">{settings.customPeriod || "Custom"}</span>
             </span>
-            <span>Daily</span>
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="inline-block w-3.5 h-3.5 print:w-3 print:h-3 border border-black text-center text-[9px] print:text-[7pt] leading-3 print:leading-2.5">
-              {settings.formPeriod === "weekly" ? "✓" : ""}
-            </span>
-            <span>Weekly</span>
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="inline-block w-3.5 h-3.5 print:w-3 print:h-3 border border-black text-center text-[9px] print:text-[7pt] leading-3 print:leading-2.5">
-              {settings.formPeriod === "monthly" ? "✓" : ""}
-            </span>
-            <span>Monthly</span>
-          </span>
+          ) : (
+            <>
+              <span className="flex items-center gap-1">
+                <span className="inline-block w-3.5 h-3.5 print:w-3 print:h-3 border border-black text-center text-[9px] print:text-[7pt] leading-3 print:leading-2.5">
+                  {settings.formPeriod === "daily" ? "✓" : ""}
+                </span>
+                <span>Daily</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="inline-block w-3.5 h-3.5 print:w-3 print:h-3 border border-black text-center text-[9px] print:text-[7pt] leading-3 print:leading-2.5">
+                  {settings.formPeriod === "weekly" ? "✓" : ""}
+                </span>
+                <span>Weekly</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="inline-block w-3.5 h-3.5 print:w-3 print:h-3 border border-black text-center text-[9px] print:text-[7pt] leading-3 print:leading-2.5">
+                  {settings.formPeriod === "monthly" ? "✓" : ""}
+                </span>
+                <span>Monthly</span>
+              </span>
+              {settings.customPeriod && (
+                <span className="text-neutral-600 font-medium text-[11px] print:text-[7.5pt]">
+                  ({settings.customPeriod})
+                </span>
+              )}
+            </>
+          )}
         </div>
       </div>
 

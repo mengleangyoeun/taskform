@@ -84,13 +84,14 @@ export async function exportToDocx(
   }
 
   // Workspace & Date Metadata
+  const wsPart = settings.hideWorkspace ? "" : `Workspace: ${workspace.name}  |  `;
   children.push(
     new Paragraph({
       alignment: AlignmentType.CENTER,
       spacing: { after: 240 },
       children: [
         new TextRun({
-          text: `Workspace: ${workspace.name}  |  Date: ${formatDate(new Date())}`,
+          text: `${wsPart}Date: ${formatDate(new Date())}`,
           size: 20, // 10pt
           color: "4B5563",
           italics: true,
@@ -100,6 +101,15 @@ export async function exportToDocx(
   );
 
   // Metadata Fields Table (Name, Date, Period)
+  const periodLabel =
+    settings.formPeriod === "custom"
+      ? `[X] ${settings.customPeriod || "Custom"}`
+      : `[${settings.formPeriod === "daily" ? "X" : " "}] Daily  [${
+          settings.formPeriod === "weekly" ? "X" : " "
+        }] Weekly  [${settings.formPeriod === "monthly" ? "X" : " "}] Monthly${
+          settings.customPeriod ? ` (${settings.customPeriod})` : ""
+        }`;
+
   children.push(
     new Table({
       width: { size: 100, type: WidthType.PERCENTAGE },
@@ -132,9 +142,7 @@ export async function exportToDocx(
                   children: [
                     new TextRun({ text: "Period: ", bold: true, size: 20 }),
                     new TextRun({
-                      text: `[${settings.formPeriod === "daily" ? "X" : " "}] Daily  [${
-                        settings.formPeriod === "weekly" ? "X" : " "
-                      }] Weekly  [${settings.formPeriod === "monthly" ? "X" : " "}] Monthly`,
+                      text: periodLabel,
                       size: 20,
                     }),
                   ],

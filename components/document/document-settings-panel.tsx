@@ -250,10 +250,28 @@ export function DocumentSettingsPanel({
                 <SelectItem value="daily">Daily</SelectItem>
                 <SelectItem value="weekly">Weekly</SelectItem>
                 <SelectItem value="monthly">Monthly</SelectItem>
+                <SelectItem value="quarterly">Quarterly</SelectItem>
+                <SelectItem value="annual">Annual</SelectItem>
+                <SelectItem value="custom">Custom Period...</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
+
+        {/* Custom Period Input Field */}
+        {settings.formPeriod === "custom" && (
+          <div className="space-y-1 animate-in fade-in duration-150">
+            <Label className="text-[11px] font-medium text-muted-foreground">
+              Custom Period Label
+            </Label>
+            <Input
+              value={settings.customPeriod || ""}
+              onChange={(e) => update({ customPeriod: e.target.value })}
+              placeholder="e.g. Q1 2026, Sprint 14, Oct 1 – Oct 15"
+              className="h-7.5 text-xs rounded-md"
+            />
+          </div>
+        )}
 
         {/* Header & Branding Section */}
         <div className="pt-2 border-t border-border/40 space-y-2.5">
@@ -355,6 +373,16 @@ export function DocumentSettingsPanel({
               className="h-7.5 text-xs rounded-md"
             />
           </div>
+
+          {/* Hide Workspace Name Option */}
+          <label className="flex items-center gap-2 cursor-pointer select-none pt-0.5 text-[11px] text-muted-foreground hover:text-foreground">
+            <Checkbox
+              checked={settings.hideWorkspace}
+              onCheckedChange={(c) => update({ hideWorkspace: !!c })}
+              className="h-3.5 w-3.5"
+            />
+            <span>Hide Workspace Name on Document</span>
+          </label>
         </div>
 
         {/* Section Toggles */}
@@ -364,6 +392,15 @@ export function DocumentSettingsPanel({
           </Label>
 
           <div className="grid grid-cols-2 gap-2 text-[11px]">
+            <label className="flex items-center gap-1.5 cursor-pointer select-none">
+              <Checkbox
+                checked={!settings.hideWorkspace}
+                onCheckedChange={(c) => update({ hideWorkspace: !c })}
+                className="h-3.5 w-3.5"
+              />
+              <span>Workspace Name</span>
+            </label>
+
             <label className="flex items-center gap-1.5 cursor-pointer select-none">
               <Checkbox
                 checked={settings.includeSummary}

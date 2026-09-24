@@ -101,7 +101,7 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
                 {settings.customTitle || workspace.name}
               </span>
               <span className="text-[9px] text-neutral-500">
-                ({workspace.name} • {formatDate(new Date())})
+                ({!settings.hideWorkspace ? `${workspace.name} • ` : ""}{formatDate(new Date())}{settings.customPeriod ? ` • ${settings.customPeriod}` : settings.formPeriod && settings.formPeriod !== "weekly" ? ` • ${settings.formPeriod.toUpperCase()}` : ""})
               </span>
             </div>
             {settings.headerSubtitle && (

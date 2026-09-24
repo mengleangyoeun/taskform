@@ -166,12 +166,24 @@ export function BoardTemplate({ workspace, settings }: TemplateProps) {
         </div>
 
         <div className="text-xs print:text-[7.5pt] text-neutral-600 sm:text-right space-y-0.5 shrink-0">
-          <div>
-            <span className="font-semibold text-neutral-800">Workspace:</span> {workspace.name}
-          </div>
+          {!settings.hideWorkspace && (
+            <div>
+              <span className="font-semibold text-neutral-800">Workspace:</span> {workspace.name}
+            </div>
+          )}
           <div>
             <span className="font-semibold text-neutral-800">Date:</span> {formatDate(new Date())}
           </div>
+          {(settings.customPeriod || (settings.formPeriod && settings.formPeriod !== "weekly")) && (
+            <div>
+              <span className="font-semibold text-neutral-800">Period:</span>{" "}
+              {settings.formPeriod === "custom"
+                ? settings.customPeriod || "Custom"
+                : settings.customPeriod
+                ? `${settings.formPeriod.toUpperCase()} (${settings.customPeriod})`
+                : settings.formPeriod.toUpperCase()}
+            </div>
+          )}
           <div>
             <span className="font-semibold text-neutral-800">Tasks:</span> {totalTasks} total
           </div>
