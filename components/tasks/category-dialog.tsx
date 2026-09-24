@@ -15,14 +15,14 @@ import { Label } from "@/components/ui/label";
 import { Category } from "@/types/database";
 
 const PRESET_COLORS = [
-  "#3b82f6", // Blue
-  "#10b981", // Emerald
-  "#8b5cf6", // Purple
-  "#f59e0b", // Amber
-  "#ef4444", // Red
-  "#ec4899", // Pink
-  "#06b6d4", // Cyan
-  "#64748b", // Slate
+  { hex: "#3b82f6", name: "Blue" },
+  { hex: "#10b981", name: "Emerald" },
+  { hex: "#8b5cf6", name: "Purple" },
+  { hex: "#f59e0b", name: "Amber" },
+  { hex: "#ef4444", name: "Red" },
+  { hex: "#ec4899", name: "Pink" },
+  { hex: "#06b6d4", name: "Cyan" },
+  { hex: "#64748b", name: "Slate" },
 ];
 
 interface CategoryDialogProps {
@@ -103,17 +103,25 @@ function CategoryForm({
           />
         </div>
         <div className="space-y-2">
-          <Label>Theme Color</Label>
+          <div className="flex items-center justify-between">
+            <Label>Theme Color</Label>
+            <span className="text-xs text-muted-foreground font-medium">
+              {PRESET_COLORS.find((c) => c.hex.toLowerCase() === color.toLowerCase())?.name || color}
+            </span>
+          </div>
           <div className="flex items-center gap-2 pt-1 flex-wrap">
             {PRESET_COLORS.map((c) => (
               <button
-                key={c}
+                key={c.hex}
                 type="button"
-                onClick={() => setColor(c)}
+                onClick={() => setColor(c.hex)}
+                title={c.name}
                 className={`h-7 w-7 rounded-full transition-transform cursor-pointer flex items-center justify-center border-2 ${
-                  color === c ? "scale-110 border-foreground shadow" : "border-transparent"
+                  color.toLowerCase() === c.hex.toLowerCase()
+                    ? "scale-110 border-foreground shadow"
+                    : "border-transparent"
                 }`}
-                style={{ backgroundColor: c }}
+                style={{ backgroundColor: c.hex }}
               />
             ))}
           </div>

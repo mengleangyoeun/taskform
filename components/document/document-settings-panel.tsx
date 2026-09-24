@@ -110,7 +110,7 @@ export function DocumentSettingsPanel({
             <Palette className="h-3 w-3 text-primary" />
             <span>Theme Accent Palette</span>
           </div>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
+          <div className="grid grid-cols-3 gap-1.5">
             {THEME_OPTIONS.map((theme) => {
               const isSelected = settings.themeColor === theme.id;
               return (
@@ -119,12 +119,12 @@ export function DocumentSettingsPanel({
                   type="button"
                   onClick={() => update({ themeColor: theme.id })}
                   className={cn(
-                    "flex items-center gap-1.5 px-2 py-1 rounded-md border text-[11px] font-medium transition-all cursor-pointer",
+                    "flex items-center gap-1.5 px-2 py-1.5 rounded-md border text-[11px] font-medium transition-all cursor-pointer min-w-0",
                     isSelected
-                      ? "border-primary bg-primary/10 text-foreground ring-1 ring-primary/40 font-semibold"
+                      ? "border-primary bg-primary/10 text-foreground ring-1 ring-primary/40 font-semibold shadow-2xs"
                       : "border-border/60 bg-background/50 text-muted-foreground hover:bg-muted hover:text-foreground"
                   )}
-                  title={theme.label}
+                  title={`${theme.label} accent theme`}
                 >
                   <span
                     className={cn(
