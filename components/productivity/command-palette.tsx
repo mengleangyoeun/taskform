@@ -85,10 +85,17 @@ function CommandPaletteInner({
   const toggleTheme = () => {
     if (typeof window !== "undefined") {
       const root = document.documentElement;
-      if (root.classList.contains("dark")) {
-        root.classList.remove("dark");
-      } else {
+      const willBeDark = !root.classList.contains("dark");
+      if (willBeDark) {
         root.classList.add("dark");
+        try {
+          localStorage.setItem("theme", "dark");
+        } catch {}
+      } else {
+        root.classList.remove("dark");
+        try {
+          localStorage.setItem("theme", "light");
+        } catch {}
       }
     }
   };

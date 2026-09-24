@@ -11,46 +11,52 @@ interface TemplateProps {
 
 const THEME_ACCENTS = {
   monochrome: {
-    banner: "bg-neutral-900 text-white",
+    headerBorder: "border-neutral-800",
     cardBorder: "border-neutral-300",
     header: "text-neutral-900",
     columnHeader: "bg-neutral-100 text-neutral-800 border-neutral-300",
-    badge: "bg-neutral-100 text-neutral-800 border-neutral-300",
+    columnBg: "bg-neutral-50/50",
+    badge: "bg-white text-neutral-800 border-neutral-300",
   },
   indigo: {
-    banner: "bg-indigo-600 text-white",
+    headerBorder: "border-indigo-600",
     cardBorder: "border-indigo-200",
     header: "text-indigo-950",
-    columnHeader: "bg-indigo-50 text-indigo-900 border-indigo-200",
-    badge: "bg-indigo-50 text-indigo-800 border-indigo-200",
+    columnHeader: "bg-indigo-100/70 text-indigo-900 border-indigo-200",
+    columnBg: "bg-indigo-50/30",
+    badge: "bg-white text-indigo-800 border-indigo-200",
   },
   slate: {
-    banner: "bg-slate-700 text-white",
+    headerBorder: "border-slate-700",
     cardBorder: "border-slate-300",
     header: "text-slate-900",
     columnHeader: "bg-slate-100 text-slate-800 border-slate-300",
-    badge: "bg-slate-100 text-slate-800 border-slate-300",
+    columnBg: "bg-slate-50/50",
+    badge: "bg-white text-slate-800 border-slate-300",
   },
   emerald: {
-    banner: "bg-emerald-600 text-white",
+    headerBorder: "border-emerald-600",
     cardBorder: "border-emerald-200",
     header: "text-emerald-950",
-    columnHeader: "bg-emerald-50 text-emerald-900 border-emerald-200",
-    badge: "bg-emerald-50 text-emerald-800 border-emerald-200",
+    columnHeader: "bg-emerald-100/70 text-emerald-900 border-emerald-200",
+    columnBg: "bg-emerald-50/30",
+    badge: "bg-white text-emerald-800 border-emerald-200",
   },
   amber: {
-    banner: "bg-amber-600 text-white",
+    headerBorder: "border-amber-600",
     cardBorder: "border-amber-200",
     header: "text-amber-950",
-    columnHeader: "bg-amber-50 text-amber-900 border-amber-200",
-    badge: "bg-amber-50 text-amber-900 border-amber-200",
+    columnHeader: "bg-amber-100/70 text-amber-900 border-amber-200",
+    columnBg: "bg-amber-50/30",
+    badge: "bg-white text-amber-900 border-amber-200",
   },
   category: {
-    banner: "bg-primary text-primary-foreground",
+    headerBorder: "border-primary",
     cardBorder: "border-border",
     header: "text-foreground",
     columnHeader: "bg-muted text-foreground border-border",
-    badge: "bg-muted text-muted-foreground border-border",
+    columnBg: "bg-muted/20",
+    badge: "bg-background text-foreground border-border",
   },
 };
 
@@ -129,7 +135,12 @@ export function BoardTemplate({ workspace, settings }: TemplateProps) {
       )}
     >
       {/* Board Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-neutral-800 print:pb-1.5 print:border-black">
+      <div
+        className={cn(
+          "flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 print:pb-1.5 print:border-black",
+          accent.headerBorder
+        )}
+      >
         <div className="flex items-center gap-3">
           {settings.logoUrl && (
             /* eslint-disable-next-line @next/next/no-img-element */
@@ -173,7 +184,11 @@ export function BoardTemplate({ workspace, settings }: TemplateProps) {
           {visibleColumns.map((col) => (
             <div
               key={`metric-${col.id}`}
-              className="p-2 rounded border border-neutral-200 print:border-black bg-neutral-50 print:bg-transparent"
+              className={cn(
+                "p-2 rounded border print:border-black print:bg-transparent shadow-2xs print:shadow-none",
+                accent.cardBorder,
+                accent.columnBg
+              )}
             >
               <div className="text-[9px] print:text-[7pt] uppercase font-bold text-neutral-500">
                 {col.label}
@@ -200,16 +215,30 @@ export function BoardTemplate({ workspace, settings }: TemplateProps) {
           return (
             <div
               key={column.id}
-              className="flex flex-col rounded-lg border border-neutral-300 print:border-black bg-neutral-50/40 print:bg-transparent p-2 print:p-1.5 min-h-[140px] space-y-2 print:space-y-1.5"
+              className={cn(
+                "flex flex-col rounded-lg border print:border-black print:bg-transparent p-2 print:p-1.5 min-h-[140px] space-y-2 print:space-y-1.5 shadow-2xs print:shadow-none",
+                accent.cardBorder,
+                accent.columnBg
+              )}
             >
               {/* Column Header */}
-              <div className="flex items-center justify-between pb-1.5 border-b border-neutral-200 print:border-black">
+              <div
+                className={cn(
+                  "flex items-center justify-between pb-1.5 px-1 py-0.5 rounded print:border-black",
+                  accent.columnHeader
+                )}
+              >
                 <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-xs print:text-[8pt] uppercase tracking-wide text-neutral-800">
+                  <span className="font-bold text-xs print:text-[8pt] uppercase tracking-wide">
                     {column.label}
                   </span>
                 </div>
-                <span className="text-[10px] print:text-[7pt] font-mono px-1.5 py-0.2 bg-white print:border print:border-black border border-neutral-200 rounded-full font-bold text-neutral-600">
+                <span
+                  className={cn(
+                    "text-[10px] print:text-[7pt] font-mono px-1.5 py-0.2 print:border print:border-black border rounded-full font-bold",
+                    accent.badge
+                  )}
+                >
                   {colTasks.length}
                 </span>
               </div>

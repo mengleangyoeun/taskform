@@ -9,7 +9,66 @@ interface TemplateProps {
   settings: DocumentSettings;
 }
 
+const THEME_ACCENTS = {
+  monochrome: {
+    headerBorder: "border-black",
+    summaryBorder: "border-black",
+    summaryBg: "bg-neutral-50 print:bg-transparent",
+    summaryTitleBorder: "border-black",
+    categoryHeaderBg: "bg-neutral-800",
+    categoryHeaderText: "text-white",
+    checkboxBorder: "border-black",
+  },
+  indigo: {
+    headerBorder: "border-indigo-600",
+    summaryBorder: "border-indigo-300",
+    summaryBg: "bg-indigo-50/70 print:bg-transparent",
+    summaryTitleBorder: "border-indigo-300",
+    categoryHeaderBg: "bg-indigo-700",
+    categoryHeaderText: "text-white",
+    checkboxBorder: "border-indigo-900",
+  },
+  slate: {
+    headerBorder: "border-slate-700",
+    summaryBorder: "border-slate-400",
+    summaryBg: "bg-slate-100/70 print:bg-transparent",
+    summaryTitleBorder: "border-slate-300",
+    categoryHeaderBg: "bg-slate-700",
+    categoryHeaderText: "text-white",
+    checkboxBorder: "border-slate-900",
+  },
+  emerald: {
+    headerBorder: "border-emerald-600",
+    summaryBorder: "border-emerald-300",
+    summaryBg: "bg-emerald-50/70 print:bg-transparent",
+    summaryTitleBorder: "border-emerald-300",
+    categoryHeaderBg: "bg-emerald-700",
+    categoryHeaderText: "text-white",
+    checkboxBorder: "border-emerald-900",
+  },
+  amber: {
+    headerBorder: "border-amber-600",
+    summaryBorder: "border-amber-300",
+    summaryBg: "bg-amber-50/70 print:bg-transparent",
+    summaryTitleBorder: "border-amber-300",
+    categoryHeaderBg: "bg-amber-700",
+    categoryHeaderText: "text-white",
+    checkboxBorder: "border-amber-900",
+  },
+  category: {
+    headerBorder: "border-neutral-800",
+    summaryBorder: "border-neutral-300",
+    summaryBg: "bg-neutral-50 print:bg-transparent",
+    summaryTitleBorder: "border-neutral-300",
+    categoryHeaderBg: "bg-neutral-800",
+    categoryHeaderText: "text-white",
+    checkboxBorder: "border-black",
+  },
+};
+
 export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
+  const accent = THEME_ACCENTS[settings.themeColor] || THEME_ACCENTS.monochrome;
+
   // Filter categories and tasks based on settings
   const filteredCategories = workspace.categories
     .map((cat) => ({
@@ -49,7 +108,7 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
       )}
     >
       {/* Form Header */}
-      <div className="border-b-2 border-black pb-3 print:pb-1.5">
+      <div className={cn("border-b-2 pb-3 print:pb-1.5 print:border-black", accent.headerBorder)}>
         <div className="flex items-center justify-between gap-4">
           {/* Logo or Organization on the left */}
           {settings.logoUrl ? (
@@ -149,8 +208,19 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
 
       {/* Summary Box */}
       {settings.includeSummary && (
-        <div className="border border-black p-3 print:p-2 bg-neutral-50 print:bg-transparent rounded-xs print-break-inside-avoid">
-          <div className="text-xs print:text-[8pt] font-bold uppercase tracking-wider mb-2 print:mb-1 border-b border-black pb-1 print:pb-0.5">
+        <div
+          className={cn(
+            "border p-3 print:p-2 rounded-xs print-break-inside-avoid print:border-black print:bg-transparent shadow-2xs print:shadow-none",
+            accent.summaryBorder,
+            accent.summaryBg
+          )}
+        >
+          <div
+            className={cn(
+              "text-xs print:text-[8pt] font-bold uppercase tracking-wider mb-2 print:mb-1 border-b pb-1 print:pb-0.5 print:border-black",
+              accent.summaryTitleBorder
+            )}
+          >
             Summary Overview
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 print:grid-cols-4 gap-2 text-center text-xs print:text-[8pt]">
@@ -185,9 +255,19 @@ export function ProfessionalTemplate({ workspace, settings }: TemplateProps) {
         {filteredCategories.map((category) => (
           <div key={category.id} className="space-y-3 print:space-y-1.5">
             {/* Category Header */}
-            <div className="bg-neutral-800 text-white font-bold text-xs print:text-[8pt] uppercase tracking-wider px-3 print:px-2 py-1.5 print:py-1 rounded-xs flex items-center justify-between print:bg-black print-break-inside-avoid">
+            <div
+              className={cn(
+                "text-white font-bold text-xs print:text-[8pt] uppercase tracking-wider px-3 print:px-2 py-1.5 print:py-1 rounded-xs flex items-center justify-between print:bg-black print:text-white print-break-inside-avoid shadow-2xs print:shadow-none",
+                settings.themeColor === "category" ? "" : accent.categoryHeaderBg
+              )}
+              style={
+                settings.themeColor === "category"
+                  ? { backgroundColor: category.color || "#1e293b" }
+                  : undefined
+              }
+            >
               <span>CATEGORY: {category.name}</span>
-              <span className="text-[10px] print:text-[7.5pt] font-normal opacity-80">
+              <span className="text-[10px] print:text-[7.5pt] font-normal opacity-90">
                 {category.subcategories.flatMap((s) => s.tasks).length} Tasks
               </span>
             </div>

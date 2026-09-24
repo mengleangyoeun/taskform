@@ -9,6 +9,15 @@ interface TemplateProps {
   settings: DocumentSettings;
 }
 
+const THEME_ACCENTS: Record<string, string> = {
+  monochrome: "border-black",
+  indigo: "border-indigo-600",
+  slate: "border-slate-700",
+  emerald: "border-emerald-600",
+  amber: "border-amber-600",
+  category: "border-primary",
+};
+
 export function SimpleTemplate({ workspace, settings }: TemplateProps) {
   const filteredCategories = workspace.categories
     .map((cat) => ({
@@ -31,6 +40,8 @@ export function SimpleTemplate({ workspace, settings }: TemplateProps) {
       ? "font-sans"
       : "font-mono";
 
+  const headerBorder = THEME_ACCENTS[settings.themeColor] || "border-black";
+
   return (
     <div
       className={cn(
@@ -39,7 +50,7 @@ export function SimpleTemplate({ workspace, settings }: TemplateProps) {
       )}
     >
       {/* Simple Text Header */}
-      <div className="border-b border-black pb-2 print:pb-1">
+      <div className={cn("border-b pb-2 print:pb-1 print:border-black", headerBorder)}>
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             {settings.logoUrl && (

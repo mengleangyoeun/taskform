@@ -198,6 +198,9 @@ for (const tmpl of expectedTemplates) {
   assert(docTypesContent.includes(`"${tmpl}"`), `Document template ${tmpl} must be defined in document types`);
   const tmplFile = path.join(process.cwd(), "components", "document", "templates", `${tmpl}-template.tsx`);
   assert(fs.existsSync(tmplFile), `Template component file ${tmpl}-template.tsx must exist`);
+  const tmplContent = fs.readFileSync(tmplFile, "utf-8");
+  assert(tmplContent.includes("settings.themeColor"), `Template ${tmpl}-template.tsx must use settings.themeColor`);
+  assert(tmplContent.includes("THEME_ACCENTS"), `Template ${tmpl}-template.tsx must define THEME_ACCENTS`);
 }
 
 const expectedThemes = ["monochrome", "indigo", "slate", "emerald", "amber", "category"];
@@ -210,7 +213,7 @@ const rendererContent = fs.readFileSync(rendererPath, "utf-8");
 assert(rendererContent.includes("ModernTemplate"), "DocumentRenderer must include ModernTemplate");
 assert(rendererContent.includes("TabularTemplate"), "DocumentRenderer must include TabularTemplate");
 assert(rendererContent.includes("BoardTemplate"), "DocumentRenderer must include BoardTemplate");
-console.log("✓ All 6 document templates (Professional, Modern, Tabular, Board, Simple, Compact) & themes verified");
+console.log("✓ All 6 document templates implement themeColor and dynamic visual palettes");
 
 console.log("\n==================================================");
 console.log("   ALL VERIFICATION TESTS PASSED SUCCESSFULLY! ✓");

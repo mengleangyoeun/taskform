@@ -9,7 +9,48 @@ interface TemplateProps {
   settings: DocumentSettings;
 }
 
+const THEME_ACCENTS = {
+  monochrome: {
+    headerBorder: "border-black",
+    cardBorder: "border-neutral-300",
+    catBorder: "border-neutral-300",
+    catText: "text-neutral-800",
+  },
+  indigo: {
+    headerBorder: "border-indigo-600",
+    cardBorder: "border-indigo-200",
+    catBorder: "border-indigo-300",
+    catText: "text-indigo-900",
+  },
+  slate: {
+    headerBorder: "border-slate-700",
+    cardBorder: "border-slate-300",
+    catBorder: "border-slate-300",
+    catText: "text-slate-900",
+  },
+  emerald: {
+    headerBorder: "border-emerald-600",
+    cardBorder: "border-emerald-200",
+    catBorder: "border-emerald-300",
+    catText: "text-emerald-900",
+  },
+  amber: {
+    headerBorder: "border-amber-600",
+    cardBorder: "border-amber-200",
+    catBorder: "border-amber-300",
+    catText: "text-amber-900",
+  },
+  category: {
+    headerBorder: "border-primary",
+    cardBorder: "border-neutral-200",
+    catBorder: "border-neutral-300",
+    catText: "text-neutral-900",
+  },
+};
+
 export function CompactTemplate({ workspace, settings }: TemplateProps) {
+  const accent = THEME_ACCENTS[settings.themeColor] || THEME_ACCENTS.monochrome;
+
   const filteredCategories = workspace.categories
     .map((cat) => ({
       ...cat,
@@ -39,7 +80,7 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
       )}
     >
       {/* Compact Header */}
-      <div className="flex items-center justify-between border-b border-black pb-1.5">
+      <div className={cn("flex items-center justify-between border-b pb-1.5 print:border-black", accent.headerBorder)}>
         <div className="flex items-center gap-2">
           {settings.logoUrl && (
             /* eslint-disable-next-line @next/next/no-img-element */
@@ -81,9 +122,23 @@ export function CompactTemplate({ workspace, settings }: TemplateProps) {
         {filteredCategories.map((category) => (
           <div
             key={category.id}
-            className="border border-neutral-300 rounded p-2 space-y-2 print-break-inside-avoid bg-neutral-50/50 print:bg-transparent"
+            className={cn(
+              "border rounded p-2 space-y-2 print-break-inside-avoid bg-neutral-50/50 print:bg-transparent print:border-black",
+              accent.cardBorder
+            )}
           >
-            <div className="font-bold text-[10pt] uppercase text-neutral-800 border-b border-neutral-300 pb-0.5 flex justify-between items-center">
+            <div
+              className={cn(
+                "font-bold text-[10pt] uppercase border-b pb-0.5 flex justify-between items-center print:border-black",
+                accent.catBorder,
+                accent.catText
+              )}
+              style={
+                settings.themeColor === "category" && category.color
+                  ? { color: category.color, borderColor: category.color }
+                  : undefined
+              }
+            >
               <span>{category.name}</span>
               <span className="text-[8pt] font-normal text-neutral-500">
                 {category.subcategories.flatMap((s) => s.tasks).length} items

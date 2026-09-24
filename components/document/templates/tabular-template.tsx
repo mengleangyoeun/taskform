@@ -9,7 +9,48 @@ interface TemplateProps {
   settings: DocumentSettings;
 }
 
+const THEME_ACCENTS = {
+  monochrome: {
+    headerBorder: "border-neutral-800",
+    thBg: "bg-neutral-800 text-white",
+    tableBorder: "border-neutral-800",
+    accentText: "text-neutral-900",
+  },
+  indigo: {
+    headerBorder: "border-indigo-600",
+    thBg: "bg-indigo-700 text-white",
+    tableBorder: "border-indigo-600",
+    accentText: "text-indigo-900",
+  },
+  slate: {
+    headerBorder: "border-slate-700",
+    thBg: "bg-slate-700 text-white",
+    tableBorder: "border-slate-700",
+    accentText: "text-slate-900",
+  },
+  emerald: {
+    headerBorder: "border-emerald-600",
+    thBg: "bg-emerald-700 text-white",
+    tableBorder: "border-emerald-600",
+    accentText: "text-emerald-900",
+  },
+  amber: {
+    headerBorder: "border-amber-600",
+    thBg: "bg-amber-700 text-white",
+    tableBorder: "border-amber-600",
+    accentText: "text-amber-900",
+  },
+  category: {
+    headerBorder: "border-primary",
+    thBg: "bg-primary text-primary-foreground",
+    tableBorder: "border-primary",
+    accentText: "text-primary",
+  },
+};
+
 export function TabularTemplate({ workspace, settings }: TemplateProps) {
+  const accent = THEME_ACCENTS[settings.themeColor] || THEME_ACCENTS.monochrome;
+
   const fontClass =
     settings.fontFamily === "serif"
       ? "font-serif"
@@ -67,7 +108,12 @@ export function TabularTemplate({ workspace, settings }: TemplateProps) {
       )}
     >
       {/* Tabular Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b-2 border-neutral-800 gap-3">
+      <div
+        className={cn(
+          "flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b-2 gap-3 print:border-black",
+          accent.headerBorder
+        )}
+      >
         <div className="flex items-center gap-3">
           {settings.logoUrl && (
             /* eslint-disable-next-line @next/next/no-img-element */
@@ -107,9 +153,19 @@ export function TabularTemplate({ workspace, settings }: TemplateProps) {
 
       {/* Structured Ledger Table */}
       <div className="overflow-x-auto print:overflow-visible">
-        <table className="w-full border-collapse border border-neutral-800 text-left text-[9.5pt] print:text-[8pt]">
+        <table
+          className={cn(
+            "w-full border-collapse border text-left text-[9.5pt] print:text-[8pt] print:border-black",
+            accent.tableBorder
+          )}
+        >
           <thead>
-            <tr className="bg-neutral-800 text-white font-semibold text-[8.5pt] print:bg-black print:text-white uppercase tracking-wider">
+            <tr
+              className={cn(
+                "font-semibold text-[8.5pt] print:bg-black print:text-white uppercase tracking-wider",
+                accent.thBg
+              )}
+            >
               <th className="border border-neutral-800 p-1.5 w-8 text-center">#</th>
               <th className="border border-neutral-800 p-1.5 w-8 text-center">[✓]</th>
               <th className="border border-neutral-800 p-1.5 min-w-[180px]">Task & Description</th>

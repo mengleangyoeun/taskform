@@ -15,6 +15,7 @@ const THEME_ACCENTS = {
     pill: "bg-neutral-100 text-neutral-800 border-neutral-300",
     header: "text-neutral-900",
     border: "border-neutral-200",
+    cardTop: "border-t-2 border-t-neutral-800",
     badge: "bg-neutral-100 text-neutral-700",
     progress: "bg-neutral-900",
   },
@@ -23,6 +24,7 @@ const THEME_ACCENTS = {
     pill: "bg-indigo-50 text-indigo-800 border-indigo-200",
     header: "text-indigo-950",
     border: "border-indigo-100",
+    cardTop: "border-t-2 border-t-indigo-600",
     badge: "bg-indigo-50 text-indigo-700",
     progress: "bg-indigo-600",
   },
@@ -31,6 +33,7 @@ const THEME_ACCENTS = {
     pill: "bg-slate-100 text-slate-800 border-slate-300",
     header: "text-slate-900",
     border: "border-slate-200",
+    cardTop: "border-t-2 border-t-slate-700",
     badge: "bg-slate-100 text-slate-700",
     progress: "bg-slate-700",
   },
@@ -39,6 +42,7 @@ const THEME_ACCENTS = {
     pill: "bg-emerald-50 text-emerald-800 border-emerald-200",
     header: "text-emerald-950",
     border: "border-emerald-100",
+    cardTop: "border-t-2 border-t-emerald-600",
     badge: "bg-emerald-50 text-emerald-700",
     progress: "bg-emerald-600",
   },
@@ -47,6 +51,7 @@ const THEME_ACCENTS = {
     pill: "bg-amber-50 text-amber-900 border-amber-200",
     header: "text-amber-950",
     border: "border-amber-100",
+    cardTop: "border-t-2 border-t-amber-600",
     badge: "bg-amber-50 text-amber-800",
     progress: "bg-amber-600",
   },
@@ -55,6 +60,7 @@ const THEME_ACCENTS = {
     pill: "bg-muted text-foreground border-border",
     header: "text-foreground",
     border: "border-border",
+    cardTop: "border-t-2 border-t-primary",
     badge: "bg-muted text-muted-foreground",
     progress: "bg-primary",
   },
@@ -199,7 +205,16 @@ export function ModernTemplate({ workspace, settings }: TemplateProps) {
         {filteredCategories.map((category) => (
           <div
             key={category.id}
-            className="rounded-lg border border-neutral-200/80 p-3 print:p-1.5 print:border-black print-break-inside-avoid space-y-2.5 bg-white shadow-2xs print:shadow-none"
+            className={cn(
+              "rounded-lg border p-3 print:p-1.5 print:border-black print-break-inside-avoid space-y-2.5 bg-white shadow-2xs print:shadow-none",
+              accent.border,
+              settings.themeColor === "category" ? "" : accent.cardTop
+            )}
+            style={
+              settings.themeColor === "category" && category.color
+                ? { borderTopWidth: 2, borderTopColor: category.color }
+                : undefined
+            }
           >
             {/* Category Banner */}
             <div className="flex items-center justify-between pb-1.5 border-b border-neutral-100 print:border-black">
